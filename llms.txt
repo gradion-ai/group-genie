@@ -1,0 +1,28 @@
+# Group Genie
+
+> Multi-party conversational AI agent framework
+
+Group Genie enables existing single-user AI agents to participate in group chat conversations
+without requiring modification to the agents themselves. It combines Group Sense's intelligent
+pattern detection with a flexible agent integration layer. Agents can be based on any technology
+stack and integrated through a simple interface, with default implementations provided for
+Pydantic AI and the OpenAI Agents SDK.
+
+
+## User Guide
+
+- [Overview](https://gradion-ai.github.io/group-genie/index.md): Project overview and introduction
+- [Installation](https://gradion-ai.github.io/group-genie/installation/index.md): Installation and setup instructions
+- [Tutorial](https://gradion-ai.github.io/group-genie/tutorial/index.md): Complete walkthrough of a fact-checking group chat example
+- [Integration](https://gradion-ai.github.io/group-genie/integration/index.md): Integrating Group Genie into a chat server
+
+## API Reference
+
+- [Session](https://gradion-ai.github.io/group-genie/api/session/index.md): Session management and message processing
+- [Message](https://gradion-ai.github.io/group-genie/api/message/index.md): Message data structures
+- [Secrets](https://gradion-ai.github.io/group-genie/api/secrets/index.md): Secrets provider interface
+- [Storage](https://gradion-ai.github.io/group-genie/api/datastore/index.md): Data persistence
+- [Agent](https://gradion-ai.github.io/group-genie/api/agent/index.md): Agent interfaces and factories
+- [Reasoner](https://gradion-ai.github.io/group-genie/api/reasoner/index.md): Group reasoner interfaces and factories
+- [Pydantic AI](https://gradion-ai.github.io/group-genie/api/provider/pydantic_ai/index.md): Pydantic AI specific group reasoner and agent implementations
+
