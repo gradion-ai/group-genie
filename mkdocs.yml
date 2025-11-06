@@ -1,0 +1,123 @@
+site_name: Group Genie
+site_description: Multi-party conversational AI agent framework
+site_url: https://gradion-ai.github.io/group-genie/
+
+repo_name: gradion-ai/group-genie
+repo_url: https://github.com/gradion-ai/group-genie
+
+copyright: Copyright &copy; 2025 Gradion AI
+
+theme:
+  name: material
+  font:
+    text: Fira
+    code: Fira Code
+  palette:
+  - media: "(prefers-color-scheme)"
+    scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/link
+      name: Switch to light mode
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    accent: indigo
+    toggle:
+      icon: material/toggle-switch-off
+      name: Switch to system preference
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.preview
+    - navigation.instant.progress
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - toc.follow
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [group_genie]
+          options:
+            show_root_heading: true
+            show_source: false
+            show_signature_annotations: true
+            signature_crossrefs: true
+            separate_signature: true
+            merge_init_into_class: true
+          inventories:
+            - url: https://docs.python.org/3/objects.inv
+              domains: [py, std]
+  - llmstxt:
+      markdown_description: |
+        Group Genie enables existing single-user AI agents to participate in group chat conversations
+        without requiring modification to the agents themselves. It combines Group Sense's intelligent
+        pattern detection with a flexible agent integration layer. Agents can be based on any technology
+        stack and integrated through a simple interface, with default implementations provided for
+        Pydantic AI and the OpenAI Agents SDK.
+      full_output: llms-full.txt
+      sections:
+        User Guide:
+          - index.md: Project overview and introduction
+          - installation.md: Installation and setup instructions
+          - tutorial.md: Complete walkthrough of a fact-checking group chat example
+          - integration.md: Integrating Group Genie into a chat server
+        API Reference:
+          - api/session.md: Session management and message processing
+          - api/message.md: Message data structures
+          - api/secrets.md: Secrets provider interface
+          - api/datastore.md: Data persistence
+          - api/agent.md: Agent interfaces and factories
+          - api/reasoner.md: Group reasoner interfaces and factories
+          - api/provider/pydantic_ai.md: Pydantic AI specific group reasoner and agent implementations
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      dedent_subsections: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - User Guide:
+    - Overview: index.md
+    - Installation: installation.md
+    - Tutorial: tutorial.md
+    - Integration: integration.md
+  - API Reference:
+    - Agent: api/agent.md
+    - Reasoner: api/reasoner.md
+    - Session: api/session.md
+    - Message: api/message.md
+    - Storage: api/datastore.md
+    - Secrets: api/secrets.md
+    - Connectors:
+      - Pydantic AI: api/provider/pydantic_ai.md
