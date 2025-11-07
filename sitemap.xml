@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://gradion-ai.github.io/group-genie/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/installation/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/integration/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/tutorial/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/agent/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/datastore/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/message/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/reasoner/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/secrets/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/session/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://gradion-ai.github.io/group-genie/api/provider/openai/</loc>
+         <lastmod>2025-11-07</lastmod>
     </url>
     <url>
          <loc>https://gradion-ai.github.io/group-genie/api/provider/pydantic_ai/</loc>
-         <lastmod>2025-11-06</lastmod>
+         <lastmod>2025-11-07</lastmod>
     </url>
 </urlset>
