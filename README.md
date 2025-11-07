@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Group Genie enables existing single-user AI agents to participate in group chat conversations without requiring modification to the agents themselves. While many AI agents excel at responding to direct queries from individual users, they typically cannot handle multi-party conversations where relevant information emerges from complex exchanges between multiple participants. Group Genie solves this by combining Group Sense's intelligent pattern detection with a flexible agent integration layer. Agents can be based on any technology stack (framework, API, etc.) and integrated through a simple agent interface, with default implementations provided for Pydantic AI and the OpenAI Agents SDK.
+Group Genie enables single-user AI agents to participate in group chat conversations without requiring modification to the agents themselves. While many AI agents excel at responding to direct queries from individual users, they typically cannot handle multi-party conversations where relevant information emerges from complex exchanges between multiple participants. Group Genie solves this by combining Group Sense's intelligent pattern detection with a flexible agent integration layer. Agents can be based on any technology stack (framework, API, etc.) and integrated through a simple agent interface, with default implementations provided for Pydantic AI and the OpenAI Agents SDK.
 
 ## Documentation
 

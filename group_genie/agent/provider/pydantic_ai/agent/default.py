@@ -16,7 +16,7 @@ from group_genie.agent.provider.pydantic_ai.utils import ApprovalInterceptor
 
 
 class DefaultAgent(Stateful, Agent):
-    """Default agent implementation using pydantic-ai.
+    """Default `Agent` implementation using [pydantic-ai](https://ai.pydantic.dev/).
 
     DefaultAgent is a ready-to-use Agent implementation built on pydantic-ai. It
     supports conversation state management, tool calling with approval workflows,
