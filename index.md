@@ -10,7 +10,7 @@ Group Genie enables single-user AI agents to participate in group chat conversat
 - **Dynamic response routing**: Group Sense reasoners determine recipients of agent responses based on conversation context and semantics, enabling agents to respond to appropriate group members.
 - **Agent framework support**: Pre-built Agent implementations for Pydantic AI and the OpenAI Agents SDK, allowing you to use existing agents from these frameworks in group chats without modification.
 - **Agent hierarchies**: Organize agents into coordinator-subagent hierarchies of any depth, each having their own context window for focused conversations and task-specific expertise.
-- **User-specific credentials**: Agents can act on behalf of individual group members using their credentials, enabling secure access to a user's private resources while maintaining proper access boundaries to other users.
+- **Acts on behalf of users**: Agents can act on behalf of individual group members using their credentials, enabling secure access to a user's private resources while maintaining proper access boundaries to other users.
 - **Agent lifecycle management**: Configurable idle timeouts optimize resource usage by automatically stopping idle agents and freeing their memory and MCP server connections.
 - **Session persistence**: File-based persistence for group chat messages and agent states allows group sessions to be suspended and resumed.
 - **Unified tool approval mechanism**: Consistent approval workflow for tool calls across agent hierarchies, with support for manual and automatic approval modes.
