@@ -28,7 +28,7 @@ async def main():
             template_name="fact_check",
         ),
         agent_factory=get_agent_factory(secrets_provider=secrets_provider),
-        data_store=DataStore(root_path=Path(".data", "quickstart")),
+        data_store=DataStore(root_path=Path(".data", "tutorial")),
     )
 
     chat = [  # example group chat messages
