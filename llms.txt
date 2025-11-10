@@ -25,4 +25,5 @@ Pydantic AI and the OpenAI Agents SDK.
 - [Agent](https://gradion-ai.github.io/group-genie/api/agent/index.md): Agent interfaces and factories
 - [Reasoner](https://gradion-ai.github.io/group-genie/api/reasoner/index.md): Group reasoner interfaces and factories
 - [Pydantic AI](https://gradion-ai.github.io/group-genie/api/provider/pydantic_ai/index.md): Pydantic AI specific group reasoner and agent implementations
+- [OpenAI Agents](https://gradion-ai.github.io/group-genie/api/provider/openai/index.md): OpenAI Agents SDK specific agent implementation
 

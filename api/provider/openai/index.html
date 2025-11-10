@@ -22,7 +22,7 @@
     
     
       
-        <title>OpenAI Agents SDK - Group Genie</title>
+        <title>OpenAI Agents - Group Genie</title>
       
     
     
@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#group_genie.agent.provider.openai.DefaultAgent" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -105,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              OpenAI Agents SDK
+              OpenAI Agents
             
           </span>
         </div>
@@ -722,17 +727,80 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    OpenAI Agents
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    OpenAI Agents SDK
+    OpenAI Agents
     
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent" class="md-nav__link">
+    <span class="md-ellipsis">
+      DefaultAgent
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DefaultAgent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent.run" class="md-nav__link">
+    <span class="md-ellipsis">
+      run
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent.mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      mcp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -772,6 +840,47 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent" class="md-nav__link">
+    <span class="md-ellipsis">
+      DefaultAgent
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DefaultAgent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent.run" class="md-nav__link">
+    <span class="md-ellipsis">
+      run
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group_genie.agent.provider.openai.DefaultAgent.mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      mcp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -789,9 +898,380 @@
   
 
 
-  <h1>OpenAI Agents SDK</h1>
+  <h1>OpenAI Agents</h1>
+
+<div class="doc doc-object doc-class">
 
 
+
+<h2 id="group_genie.agent.provider.openai.DefaultAgent" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">group_genie.agent.provider.openai.DefaultAgent</span>
+
+
+</h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">DefaultAgent</span><span class="p">(</span><span class="n">system_prompt</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><span title="agents.Model">Model</span></span><span class="p">,</span> <span class="n">model_settings</span><span class="p">:</span> <span class="n"><span title="agents.ModelSettings">ModelSettings</span></span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><span title="agents.Tool">Tool</span></span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">mcp_servers</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents first">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.Agent">Agent</a></code></p>
+
+
+        <p>Default <a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.Agent"><code>Agent</code></a> implementation using the
+<a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK</a>.</p>
+<p>DefaultAgent is a ready-to-use Agent implementation built on the OpenAI Agents SDK.
+It supports conversation state management, tool calling with approval workflows,
+and MCP server lifecycle management.</p>
+<p>The agent can be configured with:</p>
+<ul>
+<li>Custom system prompts (instructions)</li>
+<li>Any OpenAI Agents SDK compatible model</li>
+<li>Individual tools (function tools)</li>
+<li>MCP servers for external integrations</li>
+</ul>
+<p>For model and tool configuration details, consult the
+<a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK documentation</a>.</p>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">ModelSettings</span><span class="p">,</span> <span class="n">function_tool</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@function_tool</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_weather</span><span class="p">(</span><span class="n">city</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Weather in </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">: sunny&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&quot;You are a helpful weather assistant&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">model_settings</span><span class="o">=</span><span class="n">ModelSettings</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">),</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_weather</span><span class="p">],</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
+</span></code></pre></div>
+</details>
+        <p>Initialize an OpenAI Agents SDK based agent.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>system_prompt</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>System prompt (instructions) that defines the agent's
+behavior and personality.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <span title="agents.Model">Model</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Model identifier or OpenAI Agents SDK Model instance. Can be any
+model supported by the OpenAI Agents SDK.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>model_settings</code>
+            </td>
+            <td>
+                  <code><span title="agents.ModelSettings">ModelSettings</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Model-specific settings from the OpenAI Agents SDK. See
+the SDK documentation for available settings per model provider.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>tools</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<span title="agents.Tool">Tool</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of individual tools (typically function tools created with
+<code>@function_tool</code> decorator from the OpenAI Agents SDK).</p>
+              </div>
+            </td>
+            <td>
+                  <code>[]</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>mcp_servers</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of MCP server instances from the OpenAI Agents SDK.
+These will be wrapped with approval interceptors.</p>
+              </div>
+            </td>
+            <td>
+                  <code>[]</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional arguments passed to the underlying OpenAI Agent
+constructor.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="group_genie.agent.provider.openai.DefaultAgent.run" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">run</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.AgentInput">AgentInput</a></span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.ApprovalCallback">ApprovalCallback</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Process a query and return a response.</p>
+<p>Runs the OpenAI Agents SDK agent with the provided query, attachments, and
+preferences. Tool call approvals are requested through the approval
+callback, allowing the application to approve or deny tool execution. Image
+attachments are converted to base64-encoded data URLs. User preferences are
+temporarily added to the conversation but removed from the persisted history
+after execution.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>input</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.AgentInput">AgentInput</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Query, attachments, and preferences to process. See
+<a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.AgentInput"><code>AgentInput</code></a> for details.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>callback</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.ApprovalCallback">ApprovalCallback</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Approval callback for tool calls. Called for each tool execution
+to request approval. See
+<a class="autorefs autorefs-internal" href="../../agent/#group_genie.agent.ApprovalCallback"><code>ApprovalCallback</code></a>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The agent's response as a string.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If an attachment has a non-image media type.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="group_genie.agent.provider.openai.DefaultAgent.mcp" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">mcp</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">mcp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.AsyncIterator" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.AsyncIterator">AsyncIterator</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" href="#group_genie.agent.provider.openai.DefaultAgent">DefaultAgent</a></span><span class="p">]</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Manage MCP server lifecycle for this agent.</p>
+<p>Connects to all configured MCP servers and wraps them with approval interceptors.
+Creates the underlying OpenAI Agents SDK agent instance with all tools and
+MCP servers. On exit, disconnects from MCP servers and cleans up the agent.</p>
+
+
+    <p><span class="doc-section-title">Yields:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" title="collections.abc.AsyncIterator" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.AsyncIterator">AsyncIterator</a>[<a class="autorefs autorefs-internal" href="#group_genie.agent.provider.openai.DefaultAgent">DefaultAgent</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>This agent instance.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 

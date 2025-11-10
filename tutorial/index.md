@@ -49,7 +49,7 @@ Each group chat participant owns both a group reasoner instance and a system age
 
 We implement SecretsProvider, an interface designed to retrieve user-specific credentials:
 
-examples/factory/provider.py
+examples/factory/secrets.py
 
 ```python
 import os
@@ -60,10 +60,8 @@ from group_genie.secrets import SecretsProvider
 class EnvironmentSecretsProvider(SecretsProvider):
     def get_secrets(self, username: str) -> dict[str, str] | None:
         # For development: use environment variables for all users
-        return {
-            "GOOGLE_API_KEY": os.getenv("GOOGLE_API_KEY", ""),
-            "BRAVE_API_KEY": os.getenv("BRAVE_API_KEY", ""),
-        }
+        var_names = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "BRAVE_API_KEY"]
+        return {var_name: os.getenv(var_name, "") for var_name in var_names}
 ```
 
 In this development example, we just return the same set of environment variables for all users. In production, you would implement per-user credential storage and retrieval.
@@ -72,7 +70,7 @@ In this development example, we just return the same set of environment variable
 
 We use the `get_group_reasoner_factory` helper to obtain a GroupReasonerFactory for creating user-specific reasoner instances:
 
-examples/factory/reasoner.py
+examples/factory/pydantic_ai/reasoner_factory.py
 
 ```python
 from functools import partial
@@ -120,9 +118,15 @@ The `create_group_reasoner` function receives a system prompt template, secrets,
 
 ### Agent Factory
 
+Agent frameworks
+
+Group Genie supports multiple agent frameworks through the Agent interface. The following example factory is defined in [`pydantic_ai/agent_factory_1.py`](https://github.com/gradion-ai/group-genie/blob/main/examples/factory/pydantic_ai/agent_factory_1.py). It uses [Pydantic AI](https://ai.pydantic.dev/) through a default implementation of the Agent interface.
+
+An equivalent example using the [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) with another default implementation of the Agent interface is defined in [`openai/agent_factory_1.py`](https://github.com/gradion-ai/group-genie/blob/main/examples/factory/openai/agent_factory_1.py). You can also integrate any other agent framework or API by implementing the Agent interface directly.
+
 We use the `get_agent_factory` helper to obtain an AgentFactory for creating user-specific system agent instances:
 
-examples/factory/agent_1.py
+examples/factory/pydantic_ai/agent_factory_1.py
 
 ```python
 from pydantic_ai.mcp import MCPServerStdio
@@ -192,9 +196,9 @@ import logging
 from pathlib import Path
 from uuid import uuid4
 
-from examples.factory.agent_1 import get_agent_factory
-from examples.factory.provider import EnvironmentSecretsProvider
-from examples.factory.reasoner import get_group_reasoner_factory
+from examples.factory.pydantic_ai.agent_factory_1 import get_agent_factory
+from examples.factory.pydantic_ai.reasoner_factory import get_group_reasoner_factory
+from examples.factory.secrets import EnvironmentSecretsProvider
 from group_genie.agent import Approval, Decision
 from group_genie.datastore import DataStore
 from group_genie.message import Message
@@ -226,7 +230,7 @@ session = GroupSession(
         template_name="fact_check",
     ),
     agent_factory=get_agent_factory(secrets_provider=secrets_provider),
-    data_store=DataStore(root_path=Path(".data", "quickstart", session_id)),
+    data_store=DataStore(root_path=Path(".data", "tutorial")),
 )
 
 chat = [  # example group chat messages

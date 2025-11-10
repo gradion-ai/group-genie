@@ -15,7 +15,7 @@ Integrating Group Genie into a chat server involves connecting two key component
 
 ## Key Integration Points
 
-A chat server usually provides two integration points. The following are specific to the [group-terminal](https://github.com/gradion-ai/group-terminal) chat server:
+A chat server usually provides two integration points. The following are specific to the [group-terminal](https://gradion-ai.github.io/group-terminal/) chat server:
 
 1. **Message Handler**: A callback that receives incoming messages from chat clients
 
