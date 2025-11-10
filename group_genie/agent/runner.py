@@ -213,12 +213,15 @@ class AgentRunner:
             self._agent.set_serialized(system_agent_data["agent"])
 
     async def _work(self):
-        # TODO: handle connect errors
-        async with self._agent.mcp():
-            async with narrow(self.data_store, self.owner) as data_store:
-                # TODO: handle load errors
-                await self._load(data_store)
-                await self._loop(data_store)
+        try:
+            async with self._agent.mcp():
+                async with narrow(self.data_store, self.owner) as data_store:
+                    await self._load(data_store)
+                    await self._loop(data_store)
+        except Exception:
+            # TODO: drain queue and set exception on futures
+            logger.exception("Error during worker initialization")
+            raise
 
     async def _loop(self, data_store: DataStore | None):
         while True:

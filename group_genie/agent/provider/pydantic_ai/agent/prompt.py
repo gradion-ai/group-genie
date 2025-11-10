@@ -1,6 +1,8 @@
 from group_genie.agent.base import AgentInput
 from group_genie.message import Attachment
 
+# TODO: share this across providers
+
 
 def user_prompt(input: AgentInput) -> list[str]:
     if input.attachments or input.preferences:

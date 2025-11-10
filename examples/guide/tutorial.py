@@ -4,9 +4,9 @@ import logging
 from pathlib import Path
 from uuid import uuid4
 
-from examples.factory.agent_1 import get_agent_factory
-from examples.factory.provider import EnvironmentSecretsProvider
-from examples.factory.reasoner import get_group_reasoner_factory
+from examples.factory.pydantic_ai.agent_factory_1 import get_agent_factory
+from examples.factory.pydantic_ai.reasoner_factory import get_group_reasoner_factory
+from examples.factory.secrets import EnvironmentSecretsProvider
 from group_genie.agent import Approval, Decision
 from group_genie.datastore import DataStore
 from group_genie.message import Message
@@ -28,7 +28,7 @@ async def main():
             template_name="fact_check",
         ),
         agent_factory=get_agent_factory(secrets_provider=secrets_provider),
-        data_store=DataStore(root_path=Path(".data", "quickstart", session_id)),
+        data_store=DataStore(root_path=Path(".data", "quickstart")),
     )
 
     chat = [  # example group chat messages

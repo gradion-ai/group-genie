@@ -7,9 +7,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from group_terminal.server import ChatServer
 
-from examples.factory.agent_2 import get_agent_factory
-from examples.factory.provider import EnvironmentSecretsProvider
-from examples.factory.reasoner import get_group_reasoner_factory
+from examples.factory.pydantic_ai.agent_factory_2 import get_agent_factory
+from examples.factory.pydantic_ai.reasoner_factory import get_group_reasoner_factory
+from examples.factory.secrets import EnvironmentSecretsProvider
 from group_genie.agent import AgentFactory, Approval, Decision
 from group_genie.datastore import DataStore
 from group_genie.logging import configure_logging
@@ -31,7 +31,7 @@ class App:
         port: int = 8723,
     ):
         self._session_id = session_id or identifier()
-        self._data_store = DataStore(root_path=Path(".data", "chat", self._session_id))
+        self._data_store = DataStore(root_path=Path(".data", "chat"))
         self._session = GroupSession(
             id=self._session_id,
             group_reasoner_factory=group_reasoner_factory,

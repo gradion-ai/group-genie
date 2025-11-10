@@ -49,10 +49,10 @@ Each group chat participant owns both a group reasoner instance and a system age
 
 We implement [`SecretsProvider`][group_genie.secrets.SecretsProvider], an interface designed to retrieve user-specific credentials:
 
-```python title="examples/factory/provider.py"
---8<-- "examples/factory/provider.py:imports"
+```python title="examples/factory/secrets.py"
+--8<-- "examples/factory/secrets.py:imports"
 
---8<-- "examples/factory/provider.py:secrets-provider"
+--8<-- "examples/factory/secrets.py:secrets-provider"
 ```
 
 In this development example, we just return the same set of environment variables for all users. In production, you would implement per-user credential storage and retrieval.
@@ -61,11 +61,11 @@ In this development example, we just return the same set of environment variable
 
 We use the `get_group_reasoner_factory` helper to obtain a [`GroupReasonerFactory`][group_genie.reasoner.factory.GroupReasonerFactory] for creating user-specific reasoner instances:
 
-```python title="examples/factory/reasoner.py"
---8<-- "examples/factory/reasoner.py:imports"
+```python title="examples/factory/pydantic_ai/reasoner_factory.py"
+--8<-- "examples/factory/pydantic_ai/reasoner_factory.py:imports"
 
---8<-- "examples/factory/reasoner.py:create-group-reasoner"
---8<-- "examples/factory/reasoner.py:group-reasoner-factory"
+--8<-- "examples/factory/pydantic_ai/reasoner_factory.py:create-group-reasoner"
+--8<-- "examples/factory/pydantic_ai/reasoner_factory.py:group-reasoner-factory"
 ```
 
 The `create_group_reasoner` function receives a system prompt template, secrets, and the owner's username and returns a configured [`GroupReasoner`][group_genie.reasoner.base.GroupReasoner]. It:
@@ -76,13 +76,19 @@ The `create_group_reasoner` function receives a system prompt template, secrets,
 
 ### Agent Factory
 
+!!! hint "Agent frameworks"
+
+    Group Genie supports multiple agent frameworks through the [`Agent`][group_genie.agent.base.Agent] interface. The following example factory is defined in [`pydantic_ai/agent_factory_1.py`](https://github.com/gradion-ai/group-genie/blob/main/examples/factory/pydantic_ai/agent_factory_1.py). It uses [Pydantic AI](https://ai.pydantic.dev/) through a [default implementation][group_genie.agent.provider.pydantic_ai.agent.default.DefaultAgent] of the [`Agent`][group_genie.agent.base.Agent] interface.
+
+    An equivalent example using the [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) with another [default implementation][group_genie.agent.provider.openai.agent.DefaultAgent] of the [`Agent`][group_genie.agent.base.Agent] interface is defined in [`openai/agent_factory_1.py`](https://github.com/gradion-ai/group-genie/blob/main/examples/factory/openai/agent_factory_1.py). You can also integrate any other agent framework or API by implementing the [`Agent`][group_genie.agent.base.Agent] interface directly.
+
 We use the `get_agent_factory` helper to obtain an [`AgentFactory`][group_genie.agent.factory.AgentFactory] for creating user-specific system agent instances:
 
-```python title="examples/factory/agent_1.py"
---8<-- "examples/factory/agent_1.py:imports"
+```python title="examples/factory/pydantic_ai/agent_factory_1.py"
+--8<-- "examples/factory/pydantic_ai/agent_factory_1.py:imports"
  
---8<-- "examples/factory/agent_1.py:create-system-agent"
---8<-- "examples/factory/agent_1.py:agent-factory"
+--8<-- "examples/factory/pydantic_ai/agent_factory_1.py:create-system-agent"
+--8<-- "examples/factory/pydantic_ai/agent_factory_1.py:agent-factory"
 ```
 
 The `create_system_agent` function receives the owner's secrets and returns a configured [`Agent`][group_genie.agent.base.Agent]. It:

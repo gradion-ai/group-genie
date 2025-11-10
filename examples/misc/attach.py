@@ -2,8 +2,9 @@ import asyncio
 import logging
 from pathlib import Path
 
-from examples.factory.agent_2 import get_agent_factory
-from examples.factory.reasoner import get_group_reasoner_factory
+from examples.factory.pydantic_ai.agent_factory_1 import get_agent_factory
+from examples.factory.pydantic_ai.reasoner_factory import get_group_reasoner_factory
+from examples.factory.secrets import EnvironmentSecretsProvider
 from examples.utils import complete_execution
 from group_genie.datastore import DataStore
 from group_genie.logging import configure_logging
@@ -15,12 +16,13 @@ logger = logging.getLogger(__name__)
 
 
 async def main():
+    secrets_provider = EnvironmentSecretsProvider()
     session_id = identifier()
     session = GroupSession(
         id=session_id,
-        group_reasoner_factory=get_group_reasoner_factory(),
-        agent_factory=get_agent_factory(),
-        data_store=DataStore(root_path=Path(".data", "attach", session_id)),
+        group_reasoner_factory=get_group_reasoner_factory(secrets_provider=secrets_provider),
+        agent_factory=get_agent_factory(secrets_provider=secrets_provider),
+        data_store=DataStore(root_path=Path(".data", "attach")),
     )
 
     attachment_1 = Attachment(
@@ -30,13 +32,13 @@ async def main():
     )
 
     message_1 = Message(
-        content="Look at this nice image!",
+        content="I'm feeling good!",
         sender="user2",
         attachments=[attachment_1],
     )
 
     message_2 = Message(
-        content="What is the weather in the city mentioned in the attached image?",
+        content="What is the weather in the city mentioned in the image?",
         sender="user1",
     )
 
