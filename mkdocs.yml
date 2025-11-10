@@ -88,6 +88,7 @@ plugins:
           - api/agent.md: Agent interfaces and factories
           - api/reasoner.md: Group reasoner interfaces and factories
           - api/provider/pydantic_ai.md: Pydantic AI specific group reasoner and agent implementations
+          - api/provider/openai.md: OpenAI Agents SDK specific agent implementation
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -121,4 +122,4 @@ nav:
     - Secrets: api/secrets.md
     - Framework Support:
       - Pydantic AI: api/provider/pydantic_ai.md
-      - OpenAI Agents SDK: api/provider/openai.md
+      - OpenAI Agents: api/provider/openai.md

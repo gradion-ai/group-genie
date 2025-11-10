@@ -10,7 +10,7 @@ cd group-genie
 Create a virtual environment and install dependencies:
 
 ```bash
-uv sync
+uv sync --all-extras
 ```
 
 Activate the virtual environment:

@@ -2,8 +2,9 @@ import asyncio
 import logging
 from pathlib import Path
 
-from examples.factory.agent_1 import get_agent_factory
-from examples.factory.reasoner import get_group_reasoner_factory
+from examples.factory.pydantic_ai.agent_factory_1 import get_agent_factory
+from examples.factory.pydantic_ai.reasoner_factory import get_group_reasoner_factory
+from examples.factory.secrets import EnvironmentSecretsProvider
 from examples.utils import complete_execution
 from group_genie.datastore import DataStore
 from group_genie.logging import configure_logging
@@ -15,15 +16,16 @@ logger = logging.getLogger(__name__)
 
 
 async def main():
+    secrets_provider = EnvironmentSecretsProvider()
     session_id = identifier()
     session = GroupSession(
         id=session_id,
-        group_reasoner_factory=get_group_reasoner_factory(),
-        agent_factory=get_agent_factory(),
-        data_store=DataStore(root_path=Path(".data", "basic", session_id)),
+        group_reasoner_factory=get_group_reasoner_factory(secrets_provider=secrets_provider),
+        agent_factory=get_agent_factory(secrets_provider=secrets_provider),
+        data_store=DataStore(root_path=Path(".data", "basic")),
     )
 
-    execution = session.handle(Message(content="what is the weather like in Vienna today?", sender="user1"))
+    execution = session.handle(Message(content="what is the weather like in Vienna today", sender="user1"))
     await complete_execution(execution)
 
     session.stop()

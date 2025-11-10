@@ -10,10 +10,8 @@ from group_genie.secrets import SecretsProvider
 class EnvironmentSecretsProvider(SecretsProvider):
     def get_secrets(self, username: str) -> dict[str, str] | None:
         # For development: use environment variables for all users
-        return {
-            "GOOGLE_API_KEY": os.getenv("GOOGLE_API_KEY", ""),
-            "BRAVE_API_KEY": os.getenv("BRAVE_API_KEY", ""),
-        }
+        var_names = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "BRAVE_API_KEY"]
+        return {var_name: os.getenv(var_name, "") for var_name in var_names}
 
 
 # --8<-- [end:secrets-provider]

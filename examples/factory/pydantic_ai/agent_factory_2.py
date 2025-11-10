@@ -58,7 +58,7 @@ def create_system_agent(
 ) -> Agent:
     from examples.prompts.coordinator.prompt import system_prompt
 
-    tools = [extra_tools["run_subagent"]]
+    tools: list[AsyncTool] = [extra_tools["run_subagent"]]
     if tool := extra_tools.get("get_group_chat_messages"):
         tools.append(tool)
 
