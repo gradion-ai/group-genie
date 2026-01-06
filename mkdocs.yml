@@ -5,7 +5,7 @@ site_url: https://gradion-ai.github.io/group-genie/
 repo_name: gradion-ai/group-genie
 repo_url: https://github.com/gradion-ai/group-genie
 
-copyright: Copyright &copy; 2025 Gradion AI
+copyright: Copyright &copy; 2025-2026 Gradion AI
 
 theme:
   name: material
@@ -91,10 +91,7 @@ plugins:
           - api/provider/openai.md: OpenAI Agents SDK specific agent implementation
 
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
+  - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       dedent_subsections: true
