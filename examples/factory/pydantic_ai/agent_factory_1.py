@@ -22,7 +22,7 @@ def create_system_agent(secrets: dict[str, str]) -> Agent:
     )
 
     model = GoogleModel(
-        "gemini-2.5-flash",
+        "gemini-3-flash-preview",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 
@@ -35,7 +35,7 @@ def create_system_agent(secrets: dict[str, str]) -> Agent:
         model=model,
         model_settings=GoogleModelSettings(
             google_thinking_config={
-                "thinking_budget": 0,
+                "thinking_level": "minimal",
             }
         ),
         toolsets=[brave_mcp_server],

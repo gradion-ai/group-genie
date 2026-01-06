@@ -19,7 +19,7 @@ def create_group_reasoner(
     owner: str,
 ) -> GroupReasoner:
     model = GoogleModel(
-        "gemini-2.5-flash",
+        "gemini-3-flash-preview",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
     return DefaultGroupReasoner(
