@@ -1,6 +1,6 @@
 ## group_genie.message.Message
 
-```python
+```
 Message(content: str, sender: str, receiver: str | None = None, threads: list[Thread] = list(), attachments: list[Attachment] = list(), request_id: str | None = None)
 ```
 
@@ -21,7 +21,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Simple message
 message = Message(content="Hello", sender="alice")
 
@@ -48,7 +48,7 @@ assert response.request_id == "req123"
 
 ### deserialize
 
-```python
+```
 deserialize(message_dict: dict[str, Any]) -> Message
 ```
 
@@ -68,7 +68,7 @@ Returns:
 
 ## group_genie.message.Attachment
 
-```python
+```
 Attachment(path: str, name: str, media_type: str)
 ```
 
@@ -88,7 +88,7 @@ Attributes:
 
 Example
 
-```python
+```
 attachment = Attachment(
     path="/tmp/report.pdf",
     name="Monthly Report",
@@ -104,7 +104,7 @@ message = Message(
 
 ### media_type
 
-```python
+```
 media_type: str
 ```
 
@@ -112,7 +112,7 @@ MIME type of the attachment.
 
 ### name
 
-```python
+```
 name: str
 ```
 
@@ -120,7 +120,7 @@ Name of the attachment.
 
 ### path
 
-```python
+```
 path: str
 ```
 
@@ -128,7 +128,7 @@ Local file path to the attachment.
 
 ### bytes
 
-```python
+```
 bytes() -> bytes
 ```
 
@@ -148,7 +148,7 @@ Raises:
 
 ### deserialize
 
-```python
+```
 deserialize(attachment_dict: dict[str, Any]) -> Attachment
 ```
 
@@ -168,7 +168,7 @@ Returns:
 
 ## group_genie.message.Thread
 
-```python
+```
 Thread(id: str, messages: list[Message])
 ```
 
@@ -187,7 +187,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Load messages from another session
 other_session_messages = await GroupSession.load_messages(other_datastore)
 
@@ -202,7 +202,7 @@ message = Message(
 
 ### deserialize
 
-```python
+```
 deserialize(thread_dict: dict[str, Any]) -> Thread
 ```
 

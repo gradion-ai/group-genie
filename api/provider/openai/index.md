@@ -1,6 +1,6 @@
 ## group_genie.agent.provider.openai.DefaultAgent
 
-```python
+```
 DefaultAgent(system_prompt: str, model: str | Model, model_settings: ModelSettings, tools: list[Tool] = [], mcp_servers: list[Any] = [], **kwargs: Any)
 ```
 
@@ -21,7 +21,7 @@ For model and tool configuration details, consult the [OpenAI Agents SDK documen
 
 Example
 
-```python
+```
 from agents import Model, ModelSettings, function_tool
 
 @function_tool
@@ -51,7 +51,7 @@ Parameters:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -80,7 +80,7 @@ Raises:
 
 ### mcp
 
-```python
+```
 mcp() -> AsyncIterator[DefaultAgent]
 ```
 

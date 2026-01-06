@@ -1124,56 +1124,56 @@
 <h2 id="implementation-walkthrough">Implementation Walkthrough</h2>
 <h3 id="secrets-provider">Secrets Provider</h3>
 <p>We implement <a class="autorefs autorefs-internal" href="../api/secrets/#group_genie.secrets.SecretsProvider"><code>SecretsProvider</code></a>, an interface designed to retrieve user-specific credentials:</p>
-<div class="language-python highlight"><span class="filename">examples/factory/secrets.py</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">EnvironmentSecretsProvider</span><span class="p">(</span><span class="n">SecretsProvider</span><span class="p">):</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_secrets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="c1"># For development: use environment variables for all users</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">]</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="k">return</span> <span class="p">{</span><span class="n">var_name</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">}</span>
-</span></code></pre></div>
+<div class="highlight"><span class="filename">examples/factory/secrets.py</span><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">EnvironmentSecretsProvider</span><span class="p">(</span><span class="n">SecretsProvider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_secrets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># For development: use environment variables for all users</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">var_name</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">}</span>
+</code></pre></div>
 <p>In this development example, we just return the same set of environment variables for all users. In production, you would implement per-user credential storage and retrieval.</p>
 <h3 id="group-reasoner-factory">Group Reasoner Factory</h3>
 <p>We use the <code>get_group_reasoner_factory</code> helper to obtain a <a class="autorefs autorefs-internal" href="../api/reasoner/#group_genie.reasoner.GroupReasonerFactory"><code>GroupReasonerFactory</code></a> for creating user-specific reasoner instances:</p>
-<div class="language-python highlight"><span class="filename">examples/factory/pydantic_ai/reasoner_factory.py</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.models.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleModel</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.providers.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleProvider</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_reasoner_template</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent.provider.pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultGroupReasoner</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.reasoner</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupReasoner</span><span class="p">,</span> <span class="n">GroupReasonerFactory</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_group_reasoner</span><span class="p">(</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">system_template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupReasoner</span><span class="p">:</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>        <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="p">)</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    <span class="k">return</span> <span class="n">DefaultGroupReasoner</span><span class="p">(</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">),</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="p">)</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_group_reasoner_factory</span><span class="p">(</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    <span class="n">secrets_provider</span><span class="p">:</span> <span class="n">SecretsProvider</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    <span class="n">template_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;general_assist&quot;</span><span class="p">,</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="p">):</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    <span class="n">system_template</span> <span class="o">=</span> <span class="n">load_reasoner_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    <span class="k">return</span> <span class="n">GroupReasonerFactory</span><span class="p">(</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>        <span class="n">group_reasoner_factory_fn</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">create_group_reasoner</span><span class="p">,</span> <span class="n">system_template</span><span class="p">),</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    <span class="p">)</span>
-</span></code></pre></div>
+<div class="highlight"><span class="filename">examples/factory/pydantic_ai/reasoner_factory.py</span><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.models.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.providers.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleProvider</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">examples.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_reasoner_template</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent.provider.pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultGroupReasoner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.reasoner</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupReasoner</span><span class="p">,</span> <span class="n">GroupReasonerFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_group_reasoner</span><span class="p">(</span>
+    <span class="n">system_template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupReasoner</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
+        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">DefaultGroupReasoner</span><span class="p">(</span>
+        <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">),</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_group_reasoner_factory</span><span class="p">(</span>
+    <span class="n">secrets_provider</span><span class="p">:</span> <span class="n">SecretsProvider</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">template_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;general_assist&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">system_template</span> <span class="o">=</span> <span class="n">load_reasoner_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GroupReasonerFactory</span><span class="p">(</span>
+        <span class="n">group_reasoner_factory_fn</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">create_group_reasoner</span><span class="p">,</span> <span class="n">system_template</span><span class="p">),</span>
+        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
 <p>The <code>create_group_reasoner</code> function receives a system prompt template, secrets, and the owner's username and returns a configured <a class="autorefs autorefs-internal" href="../api/reasoner/#group_genie.reasoner.GroupReasoner"><code>GroupReasoner</code></a>. It:</p>
 <ol>
 <li>Creates a Gemini model instance with the owner's Google API key from their secrets</li>
@@ -1187,51 +1187,51 @@
 <p>An equivalent example using the <a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK</a> with another <a class="autorefs autorefs-internal" href="../api/provider/openai/#group_genie.agent.provider.openai.DefaultAgent">default implementation</a> of the <a class="autorefs autorefs-internal" href="../api/agent/#group_genie.agent.Agent"><code>Agent</code></a> interface is defined in <a href="https://github.com/gradion-ai/group-genie/blob/main/examples/factory/openai/agent_factory_1.py"><code>openai/agent_factory_1.py</code></a>. You can also integrate any other agent framework or API by implementing the <a class="autorefs autorefs-internal" href="../api/agent/#group_genie.agent.Agent"><code>Agent</code></a> interface directly.</p>
 </div>
 <p>We use the <code>get_agent_factory</code> helper to obtain an <a class="autorefs autorefs-internal" href="../api/agent/#group_genie.agent.AgentFactory"><code>AgentFactory</code></a> for creating user-specific system agent instances:</p>
-<div class="language-python highlight"><span class="filename">examples/factory/pydantic_ai/agent_factory_1.py</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPServerStdio</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.models.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleModel</span><span class="p">,</span> <span class="n">GoogleModelSettings</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.providers.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleProvider</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">AgentFactory</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent.provider.pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_system_agent</span><span class="p">(</span><span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">brave_mcp_server</span> <span class="o">=</span> <span class="n">MCPServerStdio</span><span class="p">(</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="n">command</span><span class="o">=</span><span class="s2">&quot;npx&quot;</span><span class="p">,</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span> <span class="s2">&quot;@modelcontextprotocol/server-brave-search&quot;</span><span class="p">],</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="n">env</span><span class="o">=</span><span class="p">{</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>            <span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">:</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="p">},</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="p">)</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="p">)</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="k">return</span> <span class="n">DefaultAgent</span><span class="p">(</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>        <span class="n">system_prompt</span><span class="o">=</span><span class="p">(</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>            <span class="s2">&quot;You are a helpful assistant. &quot;</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>            <span class="s2">&quot;Always search the web for checking facts. &quot;</span>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>            <span class="s2">&quot;Provide short, concise answers.&quot;</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>        <span class="p">),</span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        <span class="n">model_settings</span><span class="o">=</span><span class="n">GoogleModelSettings</span><span class="p">(</span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>            <span class="n">google_thinking_config</span><span class="o">=</span><span class="p">{</span>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>                <span class="s2">&quot;thinking_budget&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>            <span class="p">}</span>
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>        <span class="p">),</span>
-</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>        <span class="n">toolsets</span><span class="o">=</span><span class="p">[</span><span class="n">brave_mcp_server</span><span class="p">],</span>
-</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>    <span class="p">)</span>
-</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>
-</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>
-</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_agent_factory</span><span class="p">(</span><span class="n">secrets_provider</span><span class="p">:</span> <span class="n">SecretsProvider</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>    <span class="k">return</span> <span class="n">AgentFactory</span><span class="p">(</span>
-</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>        <span class="n">system_agent_factory</span><span class="o">=</span><span class="n">create_system_agent</span><span class="p">,</span>
-</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
-</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>    <span class="p">)</span>
-</span></code></pre></div>
+<div class="highlight"><span class="filename">examples/factory/pydantic_ai/agent_factory_1.py</span><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPServerStdio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.models.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleModel</span><span class="p">,</span> <span class="n">GoogleModelSettings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai.providers.google</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleProvider</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">AgentFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent.provider.pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretsProvider</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_system_agent</span><span class="p">(</span><span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
+    <span class="n">brave_mcp_server</span> <span class="o">=</span> <span class="n">MCPServerStdio</span><span class="p">(</span>
+        <span class="n">command</span><span class="o">=</span><span class="s2">&quot;npx&quot;</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span> <span class="s2">&quot;@modelcontextprotocol/server-brave-search&quot;</span><span class="p">],</span>
+        <span class="n">env</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">:</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BRAVE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
+        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">DefaultAgent</span><span class="p">(</span>
+        <span class="n">system_prompt</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;You are a helpful assistant. &quot;</span>
+            <span class="s2">&quot;Always search the web for checking facts. &quot;</span>
+            <span class="s2">&quot;Provide short, concise answers.&quot;</span>
+        <span class="p">),</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">model_settings</span><span class="o">=</span><span class="n">GoogleModelSettings</span><span class="p">(</span>
+            <span class="n">google_thinking_config</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;thinking_budget&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="n">toolsets</span><span class="o">=</span><span class="p">[</span><span class="n">brave_mcp_server</span><span class="p">],</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_agent_factory</span><span class="p">(</span><span class="n">secrets_provider</span><span class="p">:</span> <span class="n">SecretsProvider</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">AgentFactory</span><span class="p">(</span>
+        <span class="n">system_agent_factory</span><span class="o">=</span><span class="n">create_system_agent</span><span class="p">,</span>
+        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
 <p>The <code>create_system_agent</code> function receives the owner's secrets and returns a configured <a class="autorefs autorefs-internal" href="../api/agent/#group_genie.agent.Agent"><code>Agent</code></a>. It:</p>
 <ol>
 <li>Configures a Brave Search MCP server with the owner's Brave API key</li>
@@ -1245,66 +1245,66 @@
 </ol>
 <h3 id="group-session_1">Group Session</h3>
 <p>Now we bring everything together by creating a <a class="autorefs autorefs-internal" href="../api/session/#group_genie.session.GroupSession"><code>GroupSession</code></a>:</p>
-<div class="language-python highlight"><span class="filename">examples/guide/tutorial.py</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">uuid4</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.pydantic_ai.agent_factory_1</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_agent_factory</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.pydantic_ai.reasoner_factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_group_reasoner_factory</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvironmentSecretsProvider</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Approval</span><span class="p">,</span> <span class="n">Decision</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.datastore</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataStore</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.session</span><span class="w"> </span><span class="kn">import</span> <span class="n">Execution</span><span class="p">,</span> <span class="n">GroupSession</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">complete_execution</span><span class="p">(</span><span class="n">execution</span><span class="p">:</span> <span class="n">Execution</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">execution</span><span class="o">.</span><span class="n">stream</span><span class="p">():</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="k">match</span> <span class="n">elem</span><span class="p">:</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>            <span class="k">case</span> <span class="n">Decision</span><span class="p">():</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>                <span class="c1"># log group reasoner decision</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>            <span class="k">case</span> <span class="n">Approval</span><span class="p">():</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>                <span class="c1"># log tool call approval request</span>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>                <span class="c1"># approve tool call</span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>                <span class="n">elem</span><span class="o">.</span><span class="n">approve</span><span class="p">()</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>            <span class="k">case</span> <span class="n">Message</span><span class="p">():</span>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>                <span class="c1"># log agent response</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="n">secrets_provider</span> <span class="o">=</span> <span class="n">EnvironmentSecretsProvider</span><span class="p">()</span>
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="n">session_id</span> <span class="o">=</span> <span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
-</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="n">session</span> <span class="o">=</span> <span class="n">GroupSession</span><span class="p">(</span>
-</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    <span class="nb">id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span>
-</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>    <span class="n">group_reasoner_factory</span><span class="o">=</span><span class="n">get_group_reasoner_factory</span><span class="p">(</span>
-</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
-</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>        <span class="n">template_name</span><span class="o">=</span><span class="s2">&quot;fact_check&quot;</span><span class="p">,</span>
-</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>    <span class="p">),</span>
-</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>    <span class="n">agent_factory</span><span class="o">=</span><span class="n">get_agent_factory</span><span class="p">(</span><span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">),</span>
-</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>    <span class="n">data_store</span><span class="o">=</span><span class="n">DataStore</span><span class="p">(</span><span class="n">root_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="s2">&quot;tutorial&quot;</span><span class="p">)),</span>
-</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="p">)</span>
-</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>
-</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="n">chat</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># example group chat messages</span>
-</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>    <span class="c1"># no factual inconsistency, group reasoner will ignore the message.</span>
-</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;I&#39;m going to Vienna tomorrow&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">),</span>
-</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>    <span class="c1"># no factual inconsistency, group reasoner will ignore the message.</span>
-</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Enjoy your time there!&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user2&quot;</span><span class="p">),</span>
-</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>    <span class="c1"># factual inconsistency in response to user1&#39;s message.</span>
-</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>    <span class="c1"># Group reasoner will delegate to system agent for fact checking.</span>
-</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Cool, plan a visit to the Hofbräuhaus!&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user3&quot;</span><span class="p">),</span>
-</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="p">]</span>
-</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>
-</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="c1"># Add chat messages to session and create execution objects</span>
-</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="n">executions</span> <span class="o">=</span> <span class="p">[</span><span class="n">session</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">chat</span><span class="p">]</span>
-</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>
-</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="c1"># Concurrently process group chat messages. The complete_execution()</span>
-</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="c1"># helper logs reasoner decisions and agent responses to the console.</span>
-</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a><span class="n">coros</span> <span class="o">=</span> <span class="p">[</span><span class="n">complete_execution</span><span class="p">(</span><span class="n">exec</span><span class="p">)</span> <span class="k">for</span> <span class="n">exec</span> <span class="ow">in</span> <span class="n">executions</span><span class="p">]</span>
-</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">coros</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="highlight"><span class="filename">examples/guide/tutorial.py</span><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">uuid4</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.pydantic_ai.agent_factory_1</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_agent_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.pydantic_ai.reasoner_factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_group_reasoner_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">examples.factory.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvironmentSecretsProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Approval</span><span class="p">,</span> <span class="n">Decision</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.datastore</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">group_genie.session</span><span class="w"> </span><span class="kn">import</span> <span class="n">Execution</span><span class="p">,</span> <span class="n">GroupSession</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">complete_execution</span><span class="p">(</span><span class="n">execution</span><span class="p">:</span> <span class="n">Execution</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">execution</span><span class="o">.</span><span class="n">stream</span><span class="p">():</span>
+        <span class="k">match</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">Decision</span><span class="p">():</span>
+                <span class="c1"># log group reasoner decision</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">Approval</span><span class="p">():</span>
+                <span class="c1"># log tool call approval request</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+                <span class="c1"># approve tool call</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">approve</span><span class="p">()</span>
+            <span class="k">case</span> <span class="n">Message</span><span class="p">():</span>
+                <span class="c1"># log agent response</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+
+<span class="n">secrets_provider</span> <span class="o">=</span> <span class="n">EnvironmentSecretsProvider</span><span class="p">()</span>
+<span class="n">session_id</span> <span class="o">=</span> <span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">GroupSession</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span>
+    <span class="n">group_reasoner_factory</span><span class="o">=</span><span class="n">get_group_reasoner_factory</span><span class="p">(</span>
+        <span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">,</span>
+        <span class="n">template_name</span><span class="o">=</span><span class="s2">&quot;fact_check&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">agent_factory</span><span class="o">=</span><span class="n">get_agent_factory</span><span class="p">(</span><span class="n">secrets_provider</span><span class="o">=</span><span class="n">secrets_provider</span><span class="p">),</span>
+    <span class="n">data_store</span><span class="o">=</span><span class="n">DataStore</span><span class="p">(</span><span class="n">root_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="s2">&quot;tutorial&quot;</span><span class="p">)),</span>
+<span class="p">)</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># example group chat messages</span>
+    <span class="c1"># no factual inconsistency, group reasoner will ignore the message.</span>
+    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;I&#39;m going to Vienna tomorrow&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">),</span>
+    <span class="c1"># no factual inconsistency, group reasoner will ignore the message.</span>
+    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Enjoy your time there!&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user2&quot;</span><span class="p">),</span>
+    <span class="c1"># factual inconsistency in response to user1&#39;s message.</span>
+    <span class="c1"># Group reasoner will delegate to system agent for fact checking.</span>
+    <span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Cool, plan a visit to the Hofbräuhaus!&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="s2">&quot;user3&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="c1"># Add chat messages to session and create execution objects</span>
+<span class="n">executions</span> <span class="o">=</span> <span class="p">[</span><span class="n">session</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">chat</span><span class="p">]</span>
+
+<span class="c1"># Concurrently process group chat messages. The complete_execution()</span>
+<span class="c1"># helper logs reasoner decisions and agent responses to the console.</span>
+<span class="n">coros</span> <span class="o">=</span> <span class="p">[</span><span class="n">complete_execution</span><span class="p">(</span><span class="n">exec</span><span class="p">)</span> <span class="k">for</span> <span class="n">exec</span> <span class="ow">in</span> <span class="n">executions</span><span class="p">]</span>
+<span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">coros</span><span class="p">)</span>
+</code></pre></div>
 <p>This code:</p>
 <ol>
 <li>Creates a <a href="#secrets-provider">secrets provider</a> to supply API keys</li>
@@ -1335,23 +1335,23 @@
 <ol>
 <li>
 <p>Set up your API keys:
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GOOGLE_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-gemini-api-key&quot;</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BRAVE_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-brave-search-api-key&quot;</span>
-</span></code></pre></div></p>
+   <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">GOOGLE_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-gemini-api-key&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BRAVE_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-brave-search-api-key&quot;</span>
+</code></pre></div></p>
 </li>
 <li>
 <p>Run the tutorial script:
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>examples/guide/tutorial.py
-</span></code></pre></div></p>
+   <div class="highlight"><pre><span></span><code>python<span class="w"> </span>examples/guide/tutorial.py
+</code></pre></div></p>
 </li>
 </ol>
 <p>The output will show the group reasoner detecting the factual contradiction and the agent searching the web to verify that Hofbräuhaus is actually in Munich, not Vienna. The agent will then generate a response clarifying this mistake for the group. The output should look like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>2025-11-05 11:06:15,947 DEBUG __main__: Decision.IGNORE
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>2025-11-05 11:06:17,085 DEBUG __main__: Decision.IGNORE
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>2025-11-05 11:06:19,526 DEBUG __main__: Decision.DELEGATE
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>2025-11-05 11:06:20,336 DEBUG __main__: [sender=&quot;system&quot;] brave_web_search(query=&#39;Hofbräuhaus location&#39;)
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>2025-11-05 11:06:22,399 DEBUG __main__: Message(content=&#39;The Hofbräuhaus is a famous beer hall located in Munich, Germany, not Vienna, Austria. Therefore, a visit to the Hofbräuhaus would not be possible if you are going to Vienna.&#39;, sender=&#39;system&#39;, receiver=None, threads=[], attachments=[], request_id=None)
-</span></code></pre></div>
+<div class="highlight"><pre><span></span><code>2025-11-05 11:06:15,947 DEBUG __main__: Decision.IGNORE
+2025-11-05 11:06:17,085 DEBUG __main__: Decision.IGNORE
+2025-11-05 11:06:19,526 DEBUG __main__: Decision.DELEGATE
+2025-11-05 11:06:20,336 DEBUG __main__: [sender=&quot;system&quot;] brave_web_search(query=&#39;Hofbräuhaus location&#39;)
+2025-11-05 11:06:22,399 DEBUG __main__: Message(content=&#39;The Hofbräuhaus is a famous beer hall located in Munich, Germany, not Vienna, Austria. Therefore, a visit to the Hofbräuhaus would not be possible if you are going to Vienna.&#39;, sender=&#39;system&#39;, receiver=None, threads=[], attachments=[], request_id=None)
+</code></pre></div>
 
 
 
@@ -1387,7 +1387,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2025 Gradion AI
+      Copyright &copy; 2025-2026 Gradion AI
     </div>
   
   

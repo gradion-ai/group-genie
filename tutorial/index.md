@@ -51,7 +51,7 @@ We implement SecretsProvider, an interface designed to retrieve user-specific cr
 
 examples/factory/secrets.py
 
-```python
+```
 import os
 
 from group_genie.secrets import SecretsProvider
@@ -72,7 +72,7 @@ We use the `get_group_reasoner_factory` helper to obtain a GroupReasonerFactory 
 
 examples/factory/pydantic_ai/reasoner_factory.py
 
-```python
+```
 from functools import partial
 
 from pydantic_ai.models.google import GoogleModel
@@ -128,7 +128,7 @@ We use the `get_agent_factory` helper to obtain an AgentFactory for creating use
 
 examples/factory/pydantic_ai/agent_factory_1.py
 
-```python
+```
 from pydantic_ai.mcp import MCPServerStdio
 from pydantic_ai.models.google import GoogleModel, GoogleModelSettings
 from pydantic_ai.providers.google import GoogleProvider
@@ -190,7 +190,7 @@ Now we bring everything together by creating a GroupSession:
 
 examples/guide/tutorial.py
 
-```python
+```
 import asyncio
 import logging
 from pathlib import Path
@@ -282,20 +282,20 @@ To run this example:
 
 1. Set up your API keys:
 
-   ```bash
+   ```
    export GOOGLE_API_KEY="your-gemini-api-key"
    export BRAVE_API_KEY="your-brave-search-api-key"
    ```
 
 1. Run the tutorial script:
 
-   ```bash
+   ```
    python examples/guide/tutorial.py
    ```
 
 The output will show the group reasoner detecting the factual contradiction and the agent searching the web to verify that Hofbräuhaus is actually in Munich, not Vienna. The agent will then generate a response clarifying this mistake for the group. The output should look like this:
 
-```text
+```
 2025-11-05 11:06:15,947 DEBUG __main__: Decision.IGNORE
 2025-11-05 11:06:17,085 DEBUG __main__: Decision.IGNORE
 2025-11-05 11:06:19,526 DEBUG __main__: Decision.DELEGATE

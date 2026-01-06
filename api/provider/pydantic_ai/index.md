@@ -1,6 +1,6 @@
 ## group_genie.agent.provider.pydantic_ai.DefaultAgent
 
-```python
+```
 DefaultAgent(system_prompt: str, model: str | Model, model_settings: ModelSettings | None = None, toolsets: list[AbstractToolset] = [], tools: list[AsyncTool] = [], builtin_tools: list[AbstractBuiltinTool] = [])
 ```
 
@@ -22,7 +22,7 @@ For model and tool configuration details, consult the pydantic-ai documentation.
 
 Example
 
-```python
+```
 from pydantic_ai.builtin_tools import WebSearchTool
 from pydantic_ai.models.google import GoogleModelSettings
 
@@ -54,7 +54,7 @@ Parameters:
 
 ### mcp
 
-```python
+```
 mcp()
 ```
 
@@ -70,7 +70,7 @@ Yields:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -93,7 +93,7 @@ Returns:
 
 ## group_genie.agent.provider.pydantic_ai.DefaultGroupReasoner
 
-```python
+```
 DefaultGroupReasoner(system_prompt: str, model: str | Model | None = None, model_settings: ModelSettings | None = None)
 ```
 
@@ -109,7 +109,7 @@ For model and configuration details, consult the group-sense and pydantic-ai doc
 
 Example
 
-```python
+```
 reasoner = DefaultGroupReasoner(
     system_prompt='''
         You are monitoring a group chat for {owner}.
@@ -140,7 +140,7 @@ Parameters:
 
 ### run
 
-```python
+```
 run(updates: list[Message]) -> Response
 ```
 
@@ -162,7 +162,7 @@ Returns:
 
 ## group_genie.agent.provider.pydantic_ai.ToolFilter
 
-```python
+```
 ToolFilter(included: list[str] | None = None, excluded: list[str] | None = None)
 ```
 
@@ -179,7 +179,7 @@ The filter operates as follows:
 
 Example
 
-```python
+```
  filter = ToolFilter(included=["read_file", "write_file"])
  filtered_toolset = my_toolset.filtered(filter)
 ```

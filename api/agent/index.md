@@ -12,7 +12,7 @@ State persistence is managed automatically by the framework and stored in JSON f
 
 Example
 
-```python
+```
 class MyAgent(Agent):
     def __init__(self, system_prompt: str):
         self._history = []
@@ -36,7 +36,7 @@ class MyAgent(Agent):
 
 ### get_serialized
 
-```python
+```
 get_serialized() -> Any
 ```
 
@@ -52,7 +52,7 @@ Returns:
 
 ### mcp
 
-```python
+```
 mcp() -> AbstractAsyncContextManager[Agent]
 ```
 
@@ -68,7 +68,7 @@ Returns:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -91,7 +91,7 @@ Returns:
 
 ### set_serialized
 
-```python
+```
 set_serialized(state: Any)
 ```
 
@@ -107,7 +107,7 @@ Parameters:
 
 ## group_genie.agent.AgentInput
 
-```python
+```
 AgentInput(query: str, attachments: list[Attachment] = list(), preferences: str | None = None)
 ```
 
@@ -125,7 +125,7 @@ Attributes:
 
 Example
 
-```python
+```
 input = AgentInput(
     query="Analyze this report and summarize key findings",
     attachments=[Attachment(
@@ -139,7 +139,7 @@ input = AgentInput(
 
 ## group_genie.agent.AgentInfo
 
-```python
+```
 AgentInfo(name: str, description: str, emoji: str | None = None, idle_timeout: float | None = None)
 ```
 
@@ -158,7 +158,7 @@ Attributes:
 
 Example
 
-```python
+```
 info = AgentInfo(
     name="search",
     description="Searches the web for current information",
@@ -169,13 +169,13 @@ info = AgentInfo(
 
 ## group_genie.agent.AgentRunner
 
-```python
+```
 AgentRunner(key: str, name: str, owner: str, agent_factory: AgentFactory, data_store: DataStore | None = None, extra_tools: dict[str, AsyncTool] | None = None)
 ```
 
 ### run_subagent
 
-```python
+```
 run_subagent(query: str, subagent_name: str, subagent_instance: str | None = None, attachments: list[Attachment] = []) -> str
 ```
 
@@ -208,7 +208,7 @@ Raises:
 
 ## group_genie.agent.Approval
 
-```python
+```
 Approval(sender: str, tool_name: str, tool_args: tuple, tool_kwargs: dict[str, Any], ftr: Future[bool])
 ```
 
@@ -228,7 +228,7 @@ Attributes:
 
 Example
 
-```python
+```
 async for elem in execution.stream():
     match elem:
         case Approval() as approval:
@@ -241,7 +241,7 @@ async for elem in execution.stream():
 
 ### approve
 
-```python
+```
 approve()
 ```
 
@@ -251,7 +251,7 @@ Allows the agent to proceed with the tool execution. The agent will receive the 
 
 ### approved
 
-```python
+```
 approved() -> bool
 ```
 
@@ -267,7 +267,7 @@ Returns:
 
 ### call_repr
 
-```python
+```
 call_repr() -> str
 ```
 
@@ -275,7 +275,7 @@ Get a string representation of the tool call.
 
 ### deny
 
-```python
+```
 deny()
 ```
 
@@ -285,7 +285,7 @@ Prevents the tool from executing. The agent will receive a denial message (imple
 
 ## group_genie.agent.ApprovalCallback
 
-```python
+```
 ApprovalCallback = Callable[[str, dict[str, Any]], Awaitable[bool]]
 ```
 
@@ -308,7 +308,7 @@ Returns:
 
 ## group_genie.agent.ApprovalContext
 
-```python
+```
 ApprovalContext(queue: Queue[Approval], auto_approve: bool = False)
 ```
 
@@ -327,7 +327,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Auto-approve mode (used by Execution.result())
 context = ApprovalContext(queue=queue, auto_approve=True)
 
@@ -337,7 +337,7 @@ context = ApprovalContext(queue=queue, auto_approve=False)
 
 ### approval
 
-```python
+```
 approval(sender: str, tool_name: str, tool_args: dict[str, Any]) -> bool
 ```
 
@@ -361,7 +361,7 @@ Returns:
 
 ### approval_callback
 
-```python
+```
 approval_callback(sender: str) -> ApprovalCallback
 ```
 
@@ -381,7 +381,7 @@ Returns:
 
 ## group_genie.agent.AgentFactory
 
-```python
+```
 AgentFactory(system_agent_factory: SingleAgentFactoryFn | MultiAgentFactoryFn, system_agent_info: AgentInfo | None = None, secrets_provider: SecretsProvider | None = None)
 ```
 
@@ -396,7 +396,7 @@ The factory automatically provides user-specific secrets to agents and maintains
 
 Example
 
-```python
+```
 # Standalone agent factory
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     return DefaultAgent(
@@ -442,7 +442,7 @@ Parameters:
 
 ### add_agent_factory_fn
 
-```python
+```
 add_agent_factory_fn(factory_fn: SingleAgentFactoryFn | MultiAgentFactoryFn, info: AgentInfo)
 ```
 
@@ -459,7 +459,7 @@ Parameters:
 
 ### agent_info
 
-```python
+```
 agent_info(name: str) -> AgentInfo
 ```
 
@@ -479,7 +479,7 @@ Returns:
 
 ### agent_infos
 
-```python
+```
 agent_infos(exclude: str | None = None) -> list[AgentInfo]
 ```
 
@@ -499,7 +499,7 @@ Returns:
 
 ### create_agent
 
-```python
+```
 create_agent(name: str, owner: str, extra_tools: dict[str, AsyncTool] | None = None) -> Agent
 ```
 
@@ -523,7 +523,7 @@ Returns:
 
 ### create_system_agent
 
-```python
+```
 create_system_agent(owner: str, extra_tools: dict[str, AsyncTool]) -> Agent
 ```
 
@@ -544,7 +544,7 @@ Returns:
 
 ### system_agent_info
 
-```python
+```
 system_agent_info() -> AgentInfo
 ```
 
@@ -558,7 +558,7 @@ Returns:
 
 ## group_genie.agent.SingleAgentFactoryFn
 
-```python
+```
 SingleAgentFactoryFn = Callable[[dict[str, str]], Agent]
 ```
 
@@ -580,7 +580,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     model = GoogleModel(
         "gemini-2.5-flash",
@@ -595,7 +595,7 @@ def create_search_agent(secrets: dict[str, str]) -> Agent:
 
 ## group_genie.agent.MultiAgentFactoryFn
 
-```python
+```
 MultiAgentFactoryFn = Callable[[dict[str, str], dict[str, AsyncTool], list[AgentInfo]], Agent]
 ```
 
@@ -619,7 +619,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_coordinator(
     secrets: dict[str, str],
     extra_tools: dict[str, AsyncTool],
@@ -635,6 +635,6 @@ def create_coordinator(
 
 ## group_genie.agent.Decision
 
-```python
+```
 Decision = Decision
 ```

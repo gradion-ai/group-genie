@@ -44,7 +44,7 @@ Group Genie enables single-user AI agents to participate in group chat conversat
 
 ## Python Package
 
-```bash
+```
 pip install group-genie
 ```
 
@@ -105,7 +105,7 @@ We implement SecretsProvider, an interface designed to retrieve user-specific cr
 
 examples/factory/secrets.py
 
-```python
+```
 import os
 
 from group_genie.secrets import SecretsProvider
@@ -126,7 +126,7 @@ We use the `get_group_reasoner_factory` helper to obtain a GroupReasonerFactory 
 
 examples/factory/pydantic_ai/reasoner_factory.py
 
-```python
+```
 from functools import partial
 
 from pydantic_ai.models.google import GoogleModel
@@ -182,7 +182,7 @@ We use the `get_agent_factory` helper to obtain an AgentFactory for creating use
 
 examples/factory/pydantic_ai/agent_factory_1.py
 
-```python
+```
 from pydantic_ai.mcp import MCPServerStdio
 from pydantic_ai.models.google import GoogleModel, GoogleModelSettings
 from pydantic_ai.providers.google import GoogleProvider
@@ -244,7 +244,7 @@ Now we bring everything together by creating a GroupSession:
 
 examples/guide/tutorial.py
 
-```python
+```
 import asyncio
 import logging
 from pathlib import Path
@@ -336,20 +336,20 @@ To run this example:
 
 1. Set up your API keys:
 
-   ```bash
+   ```
    export GOOGLE_API_KEY="your-gemini-api-key"
    export BRAVE_API_KEY="your-brave-search-api-key"
    ```
 
 1. Run the tutorial script:
 
-   ```bash
+   ```
    python examples/guide/tutorial.py
    ```
 
 The output will show the group reasoner detecting the factual contradiction and the agent searching the web to verify that Hofbräuhaus is actually in Munich, not Vienna. The agent will then generate a response clarifying this mistake for the group. The output should look like this:
 
-```text
+```
 2025-11-05 11:06:15,947 DEBUG __main__: Decision.IGNORE
 2025-11-05 11:06:17,085 DEBUG __main__: Decision.IGNORE
 2025-11-05 11:06:19,526 DEBUG __main__: Decision.DELEGATE
@@ -391,7 +391,7 @@ A chat server usually provides two integration points. The following are specifi
 
 ### Message Ingestion
 
-```python
+```
 from asyncio import create_task
 from group_terminal.server import ChatServer
 from group_genie.session import GroupSession
@@ -442,7 +442,7 @@ Message ingestion includes:
 
 The `_complete_execution()` message processing coroutine processes three types of elements from an Execution stream:
 
-```python
+```
 from group_genie.session import Execution
 from group_genie.agent import Approval, Decision
 from group_genie.message import Message
@@ -480,13 +480,13 @@ The complete example is available at [examples/guide/chat.py](https://github.com
 
 Start the chat server with the [fact-checking](https://github.com/gradion-ai/group-genie/blob/main/examples/prompts/reasoner/fact_check.md) template:
 
-```bash
+```
 python examples/guide/chat.py --template-name fact_check
 ```
 
 In separate terminals, launch three clients:
 
-```bash
+```
 python -m group_terminal.client --username user1
 python -m group_terminal.client --username user2
 python -m group_terminal.client --username user3
@@ -507,7 +507,7 @@ The group reasoner detects the factual inconsistency (Hofbräuhaus is in Munich,
 
 ## group_genie.session.GroupSession
 
-```python
+```
 GroupSession(id: str, group_reasoner_factory: GroupReasonerFactory, agent_factory: AgentFactory, data_store: DataStore | None = None, preferences_source: PreferencesSource | None = None)
 ```
 
@@ -521,7 +521,7 @@ Persisted session state (messages and agent/reasoner state) is automatically loa
 
 Example
 
-```python
+```
 session = GroupSession(
     id="session123",
     group_reasoner_factory=create_group_reasoner_factory(),
@@ -563,7 +563,7 @@ Parameters:
 
 ### get_group_chat_messages
 
-```python
+```
 get_group_chat_messages() -> str
 ```
 
@@ -571,7 +571,7 @@ Returns the group chat messages as a JSON string.
 
 ### handle
 
-```python
+```
 handle(message: Message) -> Execution
 ```
 
@@ -595,7 +595,7 @@ Returns:
 
 ### join
 
-```python
+```
 join()
 ```
 
@@ -605,7 +605,7 @@ Blocks until all internal workers, agents, and reasoners have stopped. Must be c
 
 ### load_messages
 
-```python
+```
 load_messages(data_store: DataStore) -> list[Message] | None
 ```
 
@@ -627,7 +627,7 @@ Returns:
 
 ### request_ids
 
-```python
+```
 request_ids() -> Future[set[str]]
 ```
 
@@ -641,7 +641,7 @@ Returns:
 
 ### stop
 
-```python
+```
 stop()
 ```
 
@@ -651,7 +651,7 @@ Allows currently processing messages to complete before stopping all group reaso
 
 ## group_genie.session.Execution
 
-```python
+```
 Execution(preferences_source: PreferencesSource | None = None)
 ```
 
@@ -669,7 +669,7 @@ Multiple calls to stream() are safe and will return the cached result after the 
 
 Example
 
-```python
+```
 execution = session.handle(message)
 
 # Stream events
@@ -693,7 +693,7 @@ if result:
 
 ### result
 
-```python
+```
 result() -> Message | None
 ```
 
@@ -709,7 +709,7 @@ Returns:
 
 ### stream
 
-```python
+```
 stream() -> AsyncIterator[Decision | Approval | Message]
 ```
 
@@ -748,7 +748,7 @@ Preferences are included in agent prompts to personalize responses without modif
 
 Example
 
-```python
+```
 class DatabasePreferencesSource(PreferencesSource):
     async def get_preferences(self, username: str) -> str | None:
         user = await database.get_user(username)
@@ -772,7 +772,7 @@ class StaticPreferencesSource(PreferencesSource):
 
 ### get_preferences
 
-```python
+```
 get_preferences(username: str) -> str | None
 ```
 
@@ -792,7 +792,7 @@ Returns:
 
 ## group_genie.message.Message
 
-```python
+```
 Message(content: str, sender: str, receiver: str | None = None, threads: list[Thread] = list(), attachments: list[Attachment] = list(), request_id: str | None = None)
 ```
 
@@ -813,7 +813,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Simple message
 message = Message(content="Hello", sender="alice")
 
@@ -840,7 +840,7 @@ assert response.request_id == "req123"
 
 ### deserialize
 
-```python
+```
 deserialize(message_dict: dict[str, Any]) -> Message
 ```
 
@@ -860,7 +860,7 @@ Returns:
 
 ## group_genie.message.Attachment
 
-```python
+```
 Attachment(path: str, name: str, media_type: str)
 ```
 
@@ -880,7 +880,7 @@ Attributes:
 
 Example
 
-```python
+```
 attachment = Attachment(
     path="/tmp/report.pdf",
     name="Monthly Report",
@@ -896,7 +896,7 @@ message = Message(
 
 ### media_type
 
-```python
+```
 media_type: str
 ```
 
@@ -904,7 +904,7 @@ MIME type of the attachment.
 
 ### name
 
-```python
+```
 name: str
 ```
 
@@ -912,7 +912,7 @@ Name of the attachment.
 
 ### path
 
-```python
+```
 path: str
 ```
 
@@ -920,7 +920,7 @@ Local file path to the attachment.
 
 ### bytes
 
-```python
+```
 bytes() -> bytes
 ```
 
@@ -940,7 +940,7 @@ Raises:
 
 ### deserialize
 
-```python
+```
 deserialize(attachment_dict: dict[str, Any]) -> Attachment
 ```
 
@@ -960,7 +960,7 @@ Returns:
 
 ## group_genie.message.Thread
 
-```python
+```
 Thread(id: str, messages: list[Message])
 ```
 
@@ -979,7 +979,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Load messages from another session
 other_session_messages = await GroupSession.load_messages(other_datastore)
 
@@ -994,7 +994,7 @@ message = Message(
 
 ### deserialize
 
-```python
+```
 deserialize(thread_dict: dict[str, Any]) -> Thread
 ```
 
@@ -1024,7 +1024,7 @@ Implementations should return secrets as key-value pairs where keys are credenti
 
 Example
 
-```python
+```
 class EnvironmentSecretsProvider(SecretsProvider):
     def get_secrets(self, username: str) -> dict[str, str] | None:
         # For development: use environment variables for all users
@@ -1047,7 +1047,7 @@ class DatabaseSecretsProvider(SecretsProvider):
 
 ### get_secrets
 
-```python
+```
 get_secrets(username: str) -> dict[str, str] | None
 ```
 
@@ -1067,7 +1067,7 @@ Returns:
 
 ## group_genie.datastore.DataStore
 
-```python
+```
 DataStore(root_path: Path)
 ```
 
@@ -1089,7 +1089,7 @@ This is an experimental snapshot store for development and testing. Do not use i
 
 Example
 
-```python
+```
 # Create data store for a session
 store = DataStore(root_path=Path(".data/sessions/session123"))
 
@@ -1116,7 +1116,7 @@ Parameters:
 
 ### load
 
-```python
+```
 load(key: str) -> Data
 ```
 
@@ -1142,7 +1142,7 @@ Raises:
 
 ### narrow
 
-```python
+```
 narrow(key: str) -> AsyncIterator[DataStore]
 ```
 
@@ -1165,7 +1165,7 @@ Yields:
 
 Example
 
-```python
+```
 async with store.narrow("alice") as alice_store:
     async with alice_store.narrow("agent") as agent_store:
         await agent_store.save("state", {...})
@@ -1174,7 +1174,7 @@ async with store.narrow("alice") as alice_store:
 
 ### narrow_path
 
-```python
+```
 narrow_path(*keys: str) -> Path
 ```
 
@@ -1196,7 +1196,7 @@ Returns:
 
 ### save
 
-```python
+```
 save(key: str, data: Data) -> Future[None]
 ```
 
@@ -1231,7 +1231,7 @@ State persistence is managed automatically by the framework and stored in JSON f
 
 Example
 
-```python
+```
 class MyAgent(Agent):
     def __init__(self, system_prompt: str):
         self._history = []
@@ -1255,7 +1255,7 @@ class MyAgent(Agent):
 
 ### get_serialized
 
-```python
+```
 get_serialized() -> Any
 ```
 
@@ -1271,7 +1271,7 @@ Returns:
 
 ### mcp
 
-```python
+```
 mcp() -> AbstractAsyncContextManager[Agent]
 ```
 
@@ -1287,7 +1287,7 @@ Returns:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -1310,7 +1310,7 @@ Returns:
 
 ### set_serialized
 
-```python
+```
 set_serialized(state: Any)
 ```
 
@@ -1326,7 +1326,7 @@ Parameters:
 
 ## group_genie.agent.AgentInput
 
-```python
+```
 AgentInput(query: str, attachments: list[Attachment] = list(), preferences: str | None = None)
 ```
 
@@ -1344,7 +1344,7 @@ Attributes:
 
 Example
 
-```python
+```
 input = AgentInput(
     query="Analyze this report and summarize key findings",
     attachments=[Attachment(
@@ -1358,7 +1358,7 @@ input = AgentInput(
 
 ## group_genie.agent.AgentInfo
 
-```python
+```
 AgentInfo(name: str, description: str, emoji: str | None = None, idle_timeout: float | None = None)
 ```
 
@@ -1377,7 +1377,7 @@ Attributes:
 
 Example
 
-```python
+```
 info = AgentInfo(
     name="search",
     description="Searches the web for current information",
@@ -1388,13 +1388,13 @@ info = AgentInfo(
 
 ## group_genie.agent.AgentRunner
 
-```python
+```
 AgentRunner(key: str, name: str, owner: str, agent_factory: AgentFactory, data_store: DataStore | None = None, extra_tools: dict[str, AsyncTool] | None = None)
 ```
 
 ### run_subagent
 
-```python
+```
 run_subagent(query: str, subagent_name: str, subagent_instance: str | None = None, attachments: list[Attachment] = []) -> str
 ```
 
@@ -1427,7 +1427,7 @@ Raises:
 
 ## group_genie.agent.Approval
 
-```python
+```
 Approval(sender: str, tool_name: str, tool_args: tuple, tool_kwargs: dict[str, Any], ftr: Future[bool])
 ```
 
@@ -1447,7 +1447,7 @@ Attributes:
 
 Example
 
-```python
+```
 async for elem in execution.stream():
     match elem:
         case Approval() as approval:
@@ -1460,7 +1460,7 @@ async for elem in execution.stream():
 
 ### approve
 
-```python
+```
 approve()
 ```
 
@@ -1470,7 +1470,7 @@ Allows the agent to proceed with the tool execution. The agent will receive the 
 
 ### approved
 
-```python
+```
 approved() -> bool
 ```
 
@@ -1486,7 +1486,7 @@ Returns:
 
 ### call_repr
 
-```python
+```
 call_repr() -> str
 ```
 
@@ -1494,7 +1494,7 @@ Get a string representation of the tool call.
 
 ### deny
 
-```python
+```
 deny()
 ```
 
@@ -1504,7 +1504,7 @@ Prevents the tool from executing. The agent will receive a denial message (imple
 
 ## group_genie.agent.ApprovalCallback
 
-```python
+```
 ApprovalCallback = Callable[[str, dict[str, Any]], Awaitable[bool]]
 ```
 
@@ -1527,7 +1527,7 @@ Returns:
 
 ## group_genie.agent.ApprovalContext
 
-```python
+```
 ApprovalContext(queue: Queue[Approval], auto_approve: bool = False)
 ```
 
@@ -1546,7 +1546,7 @@ Attributes:
 
 Example
 
-```python
+```
 # Auto-approve mode (used by Execution.result())
 context = ApprovalContext(queue=queue, auto_approve=True)
 
@@ -1556,7 +1556,7 @@ context = ApprovalContext(queue=queue, auto_approve=False)
 
 ### approval
 
-```python
+```
 approval(sender: str, tool_name: str, tool_args: dict[str, Any]) -> bool
 ```
 
@@ -1580,7 +1580,7 @@ Returns:
 
 ### approval_callback
 
-```python
+```
 approval_callback(sender: str) -> ApprovalCallback
 ```
 
@@ -1600,7 +1600,7 @@ Returns:
 
 ## group_genie.agent.AgentFactory
 
-```python
+```
 AgentFactory(system_agent_factory: SingleAgentFactoryFn | MultiAgentFactoryFn, system_agent_info: AgentInfo | None = None, secrets_provider: SecretsProvider | None = None)
 ```
 
@@ -1615,7 +1615,7 @@ The factory automatically provides user-specific secrets to agents and maintains
 
 Example
 
-```python
+```
 # Standalone agent factory
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     return DefaultAgent(
@@ -1661,7 +1661,7 @@ Parameters:
 
 ### add_agent_factory_fn
 
-```python
+```
 add_agent_factory_fn(factory_fn: SingleAgentFactoryFn | MultiAgentFactoryFn, info: AgentInfo)
 ```
 
@@ -1678,7 +1678,7 @@ Parameters:
 
 ### agent_info
 
-```python
+```
 agent_info(name: str) -> AgentInfo
 ```
 
@@ -1698,7 +1698,7 @@ Returns:
 
 ### agent_infos
 
-```python
+```
 agent_infos(exclude: str | None = None) -> list[AgentInfo]
 ```
 
@@ -1718,7 +1718,7 @@ Returns:
 
 ### create_agent
 
-```python
+```
 create_agent(name: str, owner: str, extra_tools: dict[str, AsyncTool] | None = None) -> Agent
 ```
 
@@ -1742,7 +1742,7 @@ Returns:
 
 ### create_system_agent
 
-```python
+```
 create_system_agent(owner: str, extra_tools: dict[str, AsyncTool]) -> Agent
 ```
 
@@ -1763,7 +1763,7 @@ Returns:
 
 ### system_agent_info
 
-```python
+```
 system_agent_info() -> AgentInfo
 ```
 
@@ -1777,7 +1777,7 @@ Returns:
 
 ## group_genie.agent.SingleAgentFactoryFn
 
-```python
+```
 SingleAgentFactoryFn = Callable[[dict[str, str]], Agent]
 ```
 
@@ -1799,7 +1799,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     model = GoogleModel(
         "gemini-2.5-flash",
@@ -1814,7 +1814,7 @@ def create_search_agent(secrets: dict[str, str]) -> Agent:
 
 ## group_genie.agent.MultiAgentFactoryFn
 
-```python
+```
 MultiAgentFactoryFn = Callable[[dict[str, str], dict[str, AsyncTool], list[AgentInfo]], Agent]
 ```
 
@@ -1838,7 +1838,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_coordinator(
     secrets: dict[str, str],
     extra_tools: dict[str, AsyncTool],
@@ -1854,7 +1854,7 @@ def create_coordinator(
 
 ## group_genie.agent.Decision
 
-```python
+```
 Decision = Decision
 ```
 
@@ -1870,7 +1870,7 @@ State persistence is managed automatically by the framework and stored in JSON f
 
 Example
 
-```python
+```
 class MyGroupReasoner(GroupReasoner):
     def __init__(self, system_prompt: str):
         self._history = []
@@ -1896,7 +1896,7 @@ class MyGroupReasoner(GroupReasoner):
 
 ### processed
 
-```python
+```
 processed: int
 ```
 
@@ -1906,7 +1906,7 @@ Used for tracking conversation history and providing context to the reasoner.
 
 ### get_serialized
 
-```python
+```
 get_serialized() -> Any
 ```
 
@@ -1922,7 +1922,7 @@ Returns:
 
 ### run
 
-```python
+```
 run(updates: list[Message]) -> Response
 ```
 
@@ -1944,7 +1944,7 @@ Returns:
 
 ### set_serialized
 
-```python
+```
 set_serialized(serialized: Any)
 ```
 
@@ -1960,7 +1960,7 @@ Parameters:
 
 ## group_genie.reasoner.GroupReasonerFactory
 
-```python
+```
 GroupReasonerFactory(group_reasoner_factory_fn: GroupReasonerFactoryFn, group_reasoner_idle_timeout: float | None = None, secrets_provider: SecretsProvider | None = None)
 ```
 
@@ -1974,7 +1974,7 @@ Each user typically gets their own reasoner instance to maintain independent rea
 
 Example
 
-```python
+```
 def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)
@@ -2002,7 +2002,7 @@ Parameters:
 
 ### create_group_reasoner
 
-```python
+```
 create_group_reasoner(owner: str, **kwargs: Any) -> GroupReasoner
 ```
 
@@ -2025,7 +2025,7 @@ Returns:
 
 ## group_genie.reasoner.GroupReasonerFactoryFn
 
-```python
+```
 GroupReasonerFactoryFn = Callable[[dict[str, str], str], GroupReasoner]
 ```
 
@@ -2048,7 +2048,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)
@@ -2064,7 +2064,7 @@ def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
 
 ## group_genie.agent.provider.pydantic_ai.DefaultAgent
 
-```python
+```
 DefaultAgent(system_prompt: str, model: str | Model, model_settings: ModelSettings | None = None, toolsets: list[AbstractToolset] = [], tools: list[AsyncTool] = [], builtin_tools: list[AbstractBuiltinTool] = [])
 ```
 
@@ -2086,7 +2086,7 @@ For model and tool configuration details, consult the pydantic-ai documentation.
 
 Example
 
-```python
+```
 from pydantic_ai.builtin_tools import WebSearchTool
 from pydantic_ai.models.google import GoogleModelSettings
 
@@ -2118,7 +2118,7 @@ Parameters:
 
 ### mcp
 
-```python
+```
 mcp()
 ```
 
@@ -2134,7 +2134,7 @@ Yields:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -2157,7 +2157,7 @@ Returns:
 
 ## group_genie.agent.provider.pydantic_ai.DefaultGroupReasoner
 
-```python
+```
 DefaultGroupReasoner(system_prompt: str, model: str | Model | None = None, model_settings: ModelSettings | None = None)
 ```
 
@@ -2173,7 +2173,7 @@ For model and configuration details, consult the group-sense and pydantic-ai doc
 
 Example
 
-```python
+```
 reasoner = DefaultGroupReasoner(
     system_prompt='''
         You are monitoring a group chat for {owner}.
@@ -2204,7 +2204,7 @@ Parameters:
 
 ### run
 
-```python
+```
 run(updates: list[Message]) -> Response
 ```
 
@@ -2226,7 +2226,7 @@ Returns:
 
 ## group_genie.agent.provider.pydantic_ai.ToolFilter
 
-```python
+```
 ToolFilter(included: list[str] | None = None, excluded: list[str] | None = None)
 ```
 
@@ -2243,7 +2243,7 @@ The filter operates as follows:
 
 Example
 
-```python
+```
  filter = ToolFilter(included=["read_file", "write_file"])
  filtered_toolset = my_toolset.filtered(filter)
 ```
@@ -2257,7 +2257,7 @@ Attributes:
 
 ## group_genie.agent.provider.openai.DefaultAgent
 
-```python
+```
 DefaultAgent(system_prompt: str, model: str | Model, model_settings: ModelSettings, tools: list[Tool] = [], mcp_servers: list[Any] = [], **kwargs: Any)
 ```
 
@@ -2278,7 +2278,7 @@ For model and tool configuration details, consult the [OpenAI Agents SDK documen
 
 Example
 
-```python
+```
 from agents import Model, ModelSettings, function_tool
 
 @function_tool
@@ -2308,7 +2308,7 @@ Parameters:
 
 ### run
 
-```python
+```
 run(input: AgentInput, callback: ApprovalCallback) -> str
 ```
 
@@ -2337,7 +2337,7 @@ Raises:
 
 ### mcp
 
-```python
+```
 mcp() -> AsyncIterator[DefaultAgent]
 ```
 

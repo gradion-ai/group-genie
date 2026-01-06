@@ -1,6 +1,6 @@
 ## group_genie.datastore.DataStore
 
-```python
+```
 DataStore(root_path: Path)
 ```
 
@@ -22,7 +22,7 @@ This is an experimental snapshot store for development and testing. Do not use i
 
 Example
 
-```python
+```
 # Create data store for a session
 store = DataStore(root_path=Path(".data/sessions/session123"))
 
@@ -49,7 +49,7 @@ Parameters:
 
 ### load
 
-```python
+```
 load(key: str) -> Data
 ```
 
@@ -75,7 +75,7 @@ Raises:
 
 ### narrow
 
-```python
+```
 narrow(key: str) -> AsyncIterator[DataStore]
 ```
 
@@ -98,7 +98,7 @@ Yields:
 
 Example
 
-```python
+```
 async with store.narrow("alice") as alice_store:
     async with alice_store.narrow("agent") as agent_store:
         await agent_store.save("state", {...})
@@ -107,7 +107,7 @@ async with store.narrow("alice") as alice_store:
 
 ### narrow_path
 
-```python
+```
 narrow_path(*keys: str) -> Path
 ```
 
@@ -129,7 +129,7 @@ Returns:
 
 ### save
 
-```python
+```
 save(key: str, data: Data) -> Future[None]
 ```
 

@@ -10,7 +10,7 @@ Implementations should return secrets as key-value pairs where keys are credenti
 
 Example
 
-```python
+```
 class EnvironmentSecretsProvider(SecretsProvider):
     def get_secrets(self, username: str) -> dict[str, str] | None:
         # For development: use environment variables for all users
@@ -33,7 +33,7 @@ class DatabaseSecretsProvider(SecretsProvider):
 
 ### get_secrets
 
-```python
+```
 get_secrets(username: str) -> dict[str, str] | None
 ```
 

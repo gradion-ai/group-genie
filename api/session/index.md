@@ -1,6 +1,6 @@
 ## group_genie.session.GroupSession
 
-```python
+```
 GroupSession(id: str, group_reasoner_factory: GroupReasonerFactory, agent_factory: AgentFactory, data_store: DataStore | None = None, preferences_source: PreferencesSource | None = None)
 ```
 
@@ -14,7 +14,7 @@ Persisted session state (messages and agent/reasoner state) is automatically loa
 
 Example
 
-```python
+```
 session = GroupSession(
     id="session123",
     group_reasoner_factory=create_group_reasoner_factory(),
@@ -56,7 +56,7 @@ Parameters:
 
 ### get_group_chat_messages
 
-```python
+```
 get_group_chat_messages() -> str
 ```
 
@@ -64,7 +64,7 @@ Returns the group chat messages as a JSON string.
 
 ### handle
 
-```python
+```
 handle(message: Message) -> Execution
 ```
 
@@ -88,7 +88,7 @@ Returns:
 
 ### join
 
-```python
+```
 join()
 ```
 
@@ -98,7 +98,7 @@ Blocks until all internal workers, agents, and reasoners have stopped. Must be c
 
 ### load_messages
 
-```python
+```
 load_messages(data_store: DataStore) -> list[Message] | None
 ```
 
@@ -120,7 +120,7 @@ Returns:
 
 ### request_ids
 
-```python
+```
 request_ids() -> Future[set[str]]
 ```
 
@@ -134,7 +134,7 @@ Returns:
 
 ### stop
 
-```python
+```
 stop()
 ```
 
@@ -144,7 +144,7 @@ Allows currently processing messages to complete before stopping all group reaso
 
 ## group_genie.session.Execution
 
-```python
+```
 Execution(preferences_source: PreferencesSource | None = None)
 ```
 
@@ -162,7 +162,7 @@ Multiple calls to stream() are safe and will return the cached result after the 
 
 Example
 
-```python
+```
 execution = session.handle(message)
 
 # Stream events
@@ -186,7 +186,7 @@ if result:
 
 ### result
 
-```python
+```
 result() -> Message | None
 ```
 
@@ -202,7 +202,7 @@ Returns:
 
 ### stream
 
-```python
+```
 stream() -> AsyncIterator[Decision | Approval | Message]
 ```
 
@@ -241,7 +241,7 @@ Preferences are included in agent prompts to personalize responses without modif
 
 Example
 
-```python
+```
 class DatabasePreferencesSource(PreferencesSource):
     async def get_preferences(self, username: str) -> str | None:
         user = await database.get_user(username)
@@ -265,7 +265,7 @@ class StaticPreferencesSource(PreferencesSource):
 
 ### get_preferences
 
-```python
+```
 get_preferences(username: str) -> str | None
 ```
 

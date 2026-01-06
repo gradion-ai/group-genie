@@ -2,7 +2,7 @@
 
 ## Python Package
 
-```bash
+```
 pip install group-genie
 ```
 

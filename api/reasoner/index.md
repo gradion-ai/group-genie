@@ -10,7 +10,7 @@ State persistence is managed automatically by the framework and stored in JSON f
 
 Example
 
-```python
+```
 class MyGroupReasoner(GroupReasoner):
     def __init__(self, system_prompt: str):
         self._history = []
@@ -36,7 +36,7 @@ class MyGroupReasoner(GroupReasoner):
 
 ### processed
 
-```python
+```
 processed: int
 ```
 
@@ -46,7 +46,7 @@ Used for tracking conversation history and providing context to the reasoner.
 
 ### get_serialized
 
-```python
+```
 get_serialized() -> Any
 ```
 
@@ -62,7 +62,7 @@ Returns:
 
 ### run
 
-```python
+```
 run(updates: list[Message]) -> Response
 ```
 
@@ -84,7 +84,7 @@ Returns:
 
 ### set_serialized
 
-```python
+```
 set_serialized(serialized: Any)
 ```
 
@@ -100,7 +100,7 @@ Parameters:
 
 ## group_genie.reasoner.GroupReasonerFactory
 
-```python
+```
 GroupReasonerFactory(group_reasoner_factory_fn: GroupReasonerFactoryFn, group_reasoner_idle_timeout: float | None = None, secrets_provider: SecretsProvider | None = None)
 ```
 
@@ -114,7 +114,7 @@ Each user typically gets their own reasoner instance to maintain independent rea
 
 Example
 
-```python
+```
 def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)
@@ -142,7 +142,7 @@ Parameters:
 
 ### create_group_reasoner
 
-```python
+```
 create_group_reasoner(owner: str, **kwargs: Any) -> GroupReasoner
 ```
 
@@ -165,7 +165,7 @@ Returns:
 
 ## group_genie.reasoner.GroupReasonerFactoryFn
 
-```python
+```
 GroupReasonerFactoryFn = Callable[[dict[str, str], str], GroupReasoner]
 ```
 
@@ -188,7 +188,7 @@ Returns:
 
 Example
 
-```python
+```
 def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)

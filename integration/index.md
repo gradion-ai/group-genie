@@ -32,7 +32,7 @@ A chat server usually provides two integration points. The following are specifi
 
 ### Message Ingestion
 
-```python
+```
 from asyncio import create_task
 from group_terminal.server import ChatServer
 from group_genie.session import GroupSession
@@ -83,7 +83,7 @@ Message ingestion includes:
 
 The `_complete_execution()` message processing coroutine processes three types of elements from an Execution stream:
 
-```python
+```
 from group_genie.session import Execution
 from group_genie.agent import Approval, Decision
 from group_genie.message import Message
@@ -121,13 +121,13 @@ The complete example is available at [examples/guide/chat.py](https://github.com
 
 Start the chat server with the [fact-checking](https://github.com/gradion-ai/group-genie/blob/main/examples/prompts/reasoner/fact_check.md) template:
 
-```bash
+```
 python examples/guide/chat.py --template-name fact_check
 ```
 
 In separate terminals, launch three clients:
 
-```bash
+```
 python -m group_terminal.client --username user1
 python -m group_terminal.client --username user2
 python -m group_terminal.client --username user3
