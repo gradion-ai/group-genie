@@ -1633,7 +1633,7 @@ for the specified owner.</p>
     <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;You are assisting </span><span class="si">{owner}</span><span class="s2"> in a group chat...&quot;</span>
     <span class="n">system_prompt</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">DefaultGroupReasoner</span><span class="p">(</span>

@@ -1155,7 +1155,7 @@
     <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupReasoner</span><span class="p">:</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">DefaultGroupReasoner</span><span class="p">(</span>
@@ -1206,7 +1206,7 @@
     <span class="p">)</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
     <span class="p">)</span>
 
@@ -1219,7 +1219,7 @@
         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
         <span class="n">model_settings</span><span class="o">=</span><span class="n">GoogleModelSettings</span><span class="p">(</span>
             <span class="n">google_thinking_config</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;thinking_budget&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;thinking_level&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">),</span>
         <span class="n">toolsets</span><span class="o">=</span><span class="p">[</span><span class="n">brave_mcp_server</span><span class="p">],</span>

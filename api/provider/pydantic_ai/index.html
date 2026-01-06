@@ -1007,10 +1007,10 @@ and MCP server lifecycle management.</p>
 
 <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
     <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant&quot;</span><span class="p">,</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;google-gla:gemini-3-flash-preview&quot;</span><span class="p">,</span>
     <span class="n">model_settings</span><span class="o">=</span><span class="n">GoogleModelSettings</span><span class="p">(</span>
         <span class="n">google_thinking_config</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;thinking_budget&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;thinking_level&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span>
             <span class="s2">&quot;include_thoughts&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">),</span>
@@ -1333,8 +1333,8 @@ adapting Group Genie's Message types to group-sense's message format.</p>
 <p>The reasoner analyzes group chat messages according to the system prompt's
 engagement criteria and decides whether to delegate queries to agents.</p>
 <p>For model and configuration details, consult the group-sense and pydantic-ai
-documentation. Tested with gemini-2.5-flash but compatible with any pydantic-ai
-supported model.</p>
+documentation. Tested with google-gla:gemini-3-flash-preview but compatible
+with any pydantic-ai supported model.</p>
 
 
 <details class="example" open>
@@ -1345,7 +1345,7 @@ supported model.</p>
 <span class="s1">        Delegate when </span><span class="si">{owner}</span><span class="s1"> asks questions.</span>
 <span class="s1">        Generate self-contained queries.</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="s2">&quot;alice&quot;</span><span class="p">),</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;google-gla:gemini-3-flash-preview&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Process messages</span>

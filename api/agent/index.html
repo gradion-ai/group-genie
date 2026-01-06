@@ -2863,7 +2863,7 @@ agent metadata for introspection.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_search_agent</span><span class="p">(</span><span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">DefaultAgent</span><span class="p">(</span>
         <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&quot;You are a search specialist&quot;</span><span class="p">,</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;google-gla:google-gla:gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">builtin_tools</span><span class="o">=</span><span class="p">[</span><span class="n">WebSearchTool</span><span class="p">()],</span>
     <span class="p">)</span>
 
@@ -3536,7 +3536,7 @@ queries.</p>
   <summary>Example</summary>
   <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_search_agent</span><span class="p">(</span><span class="n">secrets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">GoogleModel</span><span class="p">(</span>
-        <span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">provider</span><span class="o">=</span><span class="n">GoogleProvider</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">DefaultAgent</span><span class="p">(</span>
@@ -3675,7 +3675,7 @@ orchestrating subagents.</p>
     <span class="n">system_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;You can delegate to: </span><span class="si">{</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">agent_infos</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">return</span> <span class="n">DefaultAgent</span><span class="p">(</span>
         <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.5-flash&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;google-gla:gemini-3-flash-preview&quot;</span><span class="p">,</span>
         <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">extra_tools</span><span class="p">[</span><span class="s2">&quot;run_subagent&quot;</span><span class="p">]],</span>
     <span class="p">)</span>
 </code></pre></div>

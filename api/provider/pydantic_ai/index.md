@@ -28,10 +28,10 @@ from pydantic_ai.models.google import GoogleModelSettings
 
 agent = DefaultAgent(
     system_prompt="You are a helpful assistant",
-    model="gemini-2.5-flash",
+    model="google-gla:gemini-3-flash-preview",
     model_settings=GoogleModelSettings(
         google_thinking_config={
-            "thinking_budget": -1,
+            "thinking_level": "high",
             "include_thoughts": True,
         }
     ),
@@ -105,7 +105,7 @@ DefaultGroupReasoner wraps the group-sense library's DefaultGroupReasoner, adapt
 
 The reasoner analyzes group chat messages according to the system prompt's engagement criteria and decides whether to delegate queries to agents.
 
-For model and configuration details, consult the group-sense and pydantic-ai documentation. Tested with gemini-2.5-flash but compatible with any pydantic-ai supported model.
+For model and configuration details, consult the group-sense and pydantic-ai documentation. Tested with google-gla:gemini-3-flash-preview but compatible with any pydantic-ai supported model.
 
 Example
 
@@ -116,7 +116,7 @@ reasoner = DefaultGroupReasoner(
         Delegate when {owner} asks questions.
         Generate self-contained queries.
     '''.format(owner="alice"),
-    model="gemini-2.5-flash",
+    model="google-gla:gemini-3-flash-preview",
 )
 
 # Process messages

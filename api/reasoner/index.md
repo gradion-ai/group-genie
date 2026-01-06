@@ -193,7 +193,7 @@ def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)
     model = GoogleModel(
-        "gemini-2.5-flash",
+        "gemini-3-flash-preview",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
     return DefaultGroupReasoner(
