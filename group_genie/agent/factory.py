@@ -25,7 +25,7 @@ Example:
     ```python
     def create_search_agent(secrets: dict[str, str]) -> Agent:
         model = GoogleModel(
-            "gemini-2.5-flash",
+            "gemini-3-flash-preview",
             provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
         )
         return DefaultAgent(
@@ -67,7 +67,7 @@ Example:
         system_prompt = f"You can delegate to: {[a.name for a in agent_infos]}"
         return DefaultAgent(
             system_prompt=system_prompt,
-            model="gemini-2.5-flash",
+            model="google-gla:gemini-3-flash-preview",
             tools=[extra_tools["run_subagent"]],
         )
     ```
@@ -96,7 +96,7 @@ class AgentFactory:
         def create_search_agent(secrets: dict[str, str]) -> Agent:
             return DefaultAgent(
                 system_prompt="You are a search specialist",
-                model="gemini-2.5-flash",
+                model="google-gla:google-gla:gemini-3-flash-preview",
                 builtin_tools=[WebSearchTool()],
             )
 

@@ -9,7 +9,7 @@ requires-python = ">=3.11,<3.15"
 readme = "README.md"
 license = "Apache-2.0"
 dependencies = [
-    "group-sense",
+    "group-sense>=0.0.4,<0.1",
     "aiofiles>=24.1.0",
 ]
 
@@ -40,7 +40,6 @@ dev = [
     "pytest-asyncio>=1.2.0,<2",
     "pytest-cov>=4.1.0,<5",
     "types-aiofiles>=25.1.0.20251011,<26",
-    "group-sense>=0.0.3,<0.1",
     "group-terminal>=0.0.2,<0.1",
 ]
 

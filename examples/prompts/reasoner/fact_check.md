@@ -48,4 +48,4 @@ When delegating:
 3. Add context only if essential
 4. Set `receiver` to null
 
-**Template:** "These statements contradict each other: '[earlier quote]' versus '[last message quote]'. Please fact-check and respond with an explanation of the contradiction. The receivers of your response are the authors of the statements.
+**Template:** "These statements contradict each other: '[earlier quote]' versus '[last message quote]'. Please fact-check and respond with an explanation of the contradiction. The receivers of your response are the authors of the statements. Formulate your response as if you were responding to the receivers, but do not mention them directly. Start your response directly with the factual clarification—do not begin with phrases like 'The contradiction is...' or 'The issue here is...'. Lead with the corrected information or explanation itself.
