@@ -1,6 +1,4 @@
-# Group Genie
-
-## Introduction
+# Overview
 
 Group Genie enables single-user AI agents to participate in group chat conversations without requiring modification to the agents themselves. While many AI agents excel at responding to direct queries from individual users, they typically cannot handle multi-party conversations where relevant information emerges from complex exchanges between multiple participants. Group Genie solves this by combining [Group Sense](https://gradion-ai.github.io/group-sense/)'s intelligent pattern detection with a flexible agent integration layer. Agents can be based on any technology stack (framework, API, etc.) and integrated through a simple agent interface, with default implementations provided for Pydantic AI and the OpenAI Agents SDK.
 
@@ -29,8 +27,3 @@ Group Genie enables single-user AI agents to participate in group chat conversat
 1. [Install](installation.md) the library and configure API keys
 2. Follow the [tutorial](tutorial.md) to build your first group chat agent
 3. Learn how to [integrate](integration.md) Group Genie into your application
-
-## LLM-optimized documentation
-
-- [llms.txt](/group-genie/llms.txt)
-- [llms-full.txt](/group-genie/llms-full.txt)

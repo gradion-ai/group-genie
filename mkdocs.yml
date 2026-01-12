@@ -96,6 +96,9 @@ nav:
     - Installation: installation.md
     - Tutorial: tutorial.md
     - Integration: integration.md
+    - LLM readable:
+      - llms.txt: llms.txt
+      - llms-full.txt: llms-full.txt
   - API Reference:
     - Agent: api/agent.md
     - Reasoner: api/reasoner.md
