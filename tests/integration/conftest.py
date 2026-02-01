@@ -97,10 +97,10 @@ class MockGroupReasoner(GroupReasoner):
     def processed(self) -> int:
         return 0
 
-    def get_serialized(self) -> Any:
-        return {}
+    def get_new_messages(self) -> list[Any]:
+        return []
 
-    def set_serialized(self, state: Any):
+    def set_serialized(self, lines: list[Any]):
         pass
 
     async def run(self, updates: list[Message]) -> Response:

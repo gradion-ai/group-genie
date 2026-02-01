@@ -10,7 +10,7 @@ from group_genie.agent.base import Agent, AgentInput
 from group_genie.agent.factory import AgentFactory, AsyncTool
 from group_genie.datastore import DataStore, narrow
 from group_genie.message import Attachment
-from group_genie.utils import identifier
+from group_genie.utils import completed_future, identifier
 
 logger = logging.getLogger(__name__)
 
@@ -194,23 +194,20 @@ class AgentRunner:
 
     def _save(self, data_store: DataStore | None) -> Future[None]:
         if data_store is None:
-            future = Future[None]()
-            future.set_result(None)
-            return future
+            return completed_future()
 
-        system_agent_data = {"agent": self._agent.get_serialized()}
-        return data_store.save(self.key, system_agent_data)
+        new_messages = self._agent.get_new_messages()
+        return data_store.append(self.key, new_messages)
 
     async def _load(self, data_store: DataStore | None):
         if data_store is None:
             return
 
         try:
-            system_agent_data = await data_store.load(self.key)
+            lines = await data_store.load(self.key)
         except KeyError:
-            pass
-        else:
-            self._agent.set_serialized(system_agent_data["agent"])
+            lines = []
+        self._agent.set_serialized(lines)
 
     async def _work(self):
         try:
@@ -235,9 +232,8 @@ class AgentRunner:
                         future.set_exception(e)
                     else:
                         future.set_result(response)
-                        self._save(data_store)  # background
+                        await self._save(data_store)
                 case Stop():
-                    await self._save(data_store)
                     self._stop_subagents()
                     await self._join_subagents()
                     logger.debug(f"Agent {self.key} stopped")
