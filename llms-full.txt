@@ -1066,19 +1066,19 @@ DataStore(root_path: Path)
 
 Persistent storage for session messages and agent state.
 
-DataStore provides a simple file-based persistence mechanism for Group Genie sessions. It stores data in JSON files organized in a hierarchical directory structure based on session IDs, owner IDs, and component keys.
+DataStore provides a simple file-based persistence mechanism for Group Genie sessions. It stores data in JSONL files (one JSON object per line) organized in a hierarchical directory structure based on session IDs, owner IDs, and component keys.
 
 Key characteristics:
 
-- Automatic JSON serialization
+- Append-only JSONL format (one JSON object per line)
 - Hierarchical key-based organization via narrow()
-- Asynchronous save operations (non-blocking)
+- Asynchronous append operations (non-blocking)
 - Key sanitization for filesystem safety
 - No depth limits on hierarchy
 
 Note
 
-This is an experimental snapshot store for development and testing. Do not use in production.
+This is an experimental store for development and testing. Do not use in production.
 
 Example
 
@@ -1086,17 +1086,17 @@ Example
 # Create data store for a session
 store = DataStore(root_path=Path(".data/sessions/session123"))
 
-# Save data
-await store.save("messages", {"messages": [...]})
+# Append data (one line per call)
+store.append("messages", {"content": "hello", "sender": "alice"})
 
-# Load data
-data = await store.load("messages")
+# Load all lines
+lines = await store.load("messages")  # Returns list of dicts
 
 # Create narrowed store for a component
 async with store.narrow("alice") as alice_store:
-    await alice_store.save("agent", agent_state)
+    alice_store.append("agent", message_data)
 
-# Path structure: .data/sessions/session123/alice/agent.json
+# Path structure: .data/sessions/session123/alice/agent.jsonl
 ```
 
 Initialize a data store with a root directory.
@@ -1107,13 +1107,36 @@ Parameters:
 | ----------- | ------ | ------------------------------------------ | ---------- |
 | `root_path` | `Path` | Root directory for storing all data files. | *required* |
 
+### append
+
+```
+append(key: str, data: list[Data]) -> Future[None]
+```
+
+Append JSON objects as new lines to storage.
+
+Queues the append operation to execute in the background, allowing the caller to continue without blocking. All items are written atomically in a single file operation.
+
+Parameters:
+
+| Name   | Type         | Description                                               | Default    |
+| ------ | ------------ | --------------------------------------------------------- | ---------- |
+| `key`  | `str`        | Storage key for the data.                                 | *required* |
+| `data` | `list[Data]` | List of items to append (each must be JSON-serializable). | *required* |
+
+Returns:
+
+| Type           | Description                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| `Future[None]` | A Future that resolves when the append completes. Can be ignored for fire-and-forget appends. |
+
 ### load
 
 ```
-load(key: str) -> Data
+load(key: str) -> list[Data]
 ```
 
-Load data from storage.
+Load all data lines from storage.
 
 Parameters:
 
@@ -1123,15 +1146,16 @@ Parameters:
 
 Returns:
 
-| Type   | Description                               |
-| ------ | ----------------------------------------- |
-| `Data` | The loaded data (deserialized from JSON). |
+| Type         | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| `list[Data]` | List of deserialized JSON objects, one per line in the file. |
 
 Raises:
 
-| Type       | Description                           |
-| ---------- | ------------------------------------- |
-| `KeyError` | If the key does not exist in storage. |
+| Type         | Description                           |
+| ------------ | ------------------------------------- |
+| `KeyError`   | If the key does not exist in storage. |
+| `ValueError` | If any line contains malformed JSON.  |
 
 ### narrow
 
@@ -1187,29 +1211,6 @@ Returns:
 | ------ | ------------------------------- |
 | `Path` | Path to the narrowed directory. |
 
-### save
-
-```
-save(key: str, data: Data) -> Future[None]
-```
-
-Save data to storage asynchronously.
-
-Queues the save operation to execute in the background, allowing the caller to continue without blocking.
-
-Parameters:
-
-| Name   | Type   | Description                               | Default    |
-| ------ | ------ | ----------------------------------------- | ---------- |
-| `key`  | `str`  | Storage key for the data.                 | *required* |
-| `data` | `Data` | Data to save (must be JSON-serializable). | *required* |
-
-Returns:
-
-| Type           | Description                                                                               |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| `Future[None]` | A Future that resolves when the save completes. Can be ignored for fire-and-forget saves. |
-
 ## group_genie.agent.Agent
 
 Bases: `ABC`
@@ -1218,9 +1219,9 @@ Abstract base class for creating custom agents.
 
 Agents are the core processing units that handle delegated queries from group reasoners. They can be standalone agents or coordinator agents that orchestrate subagents in a hierarchical architecture.
 
-Implementations must handle conversation state serialization (via get_serialized and set_serialized), MCP server lifecycle management (via mcp context manager), and query processing with tool approval callbacks.
+Implementations must handle conversation state serialization (via get_new_messages and set_serialized), MCP server lifecycle management (via mcp context manager), and query processing with tool approval callbacks.
 
-State persistence is managed automatically by the framework and stored in JSON format. Persisted state is never transferred between different owners (users).
+State persistence is managed automatically by the framework using JSONL format (one JSON object per line). Persisted state is never transferred between different owners (users).
 
 Example
 
@@ -1228,13 +1229,15 @@ Example
 class MyAgent(Agent):
     def __init__(self, system_prompt: str):
         self._history = []
+        self._new_messages = []
         self._system_prompt = system_prompt
 
-    def get_serialized(self):
-        return {"history": self._history}
+    def get_new_messages(self):
+        return self._new_messages
 
-    def set_serialized(self, state):
-        self._history = state["history"]
+    def set_serialized(self, lines):
+        self._history = lines
+        self._new_messages = []
 
     @asynccontextmanager
     async def mcp(self):
@@ -1246,21 +1249,21 @@ class MyAgent(Agent):
         return f"Processed: {input.query}"
 ```
 
-### get_serialized
+### get_new_messages
 
 ```
-get_serialized() -> Any
+get_new_messages() -> list[Any]
 ```
 
-Serialize agent state for persistence.
+Return messages from the last run() call for appending.
 
-Returns conversation history and any other state needed to resume the agent after a restart. Called automatically by the framework before saving to DataStore.
+Returns the new messages generated during the most recent run() call. Called automatically by the framework after each run to persist incremental state.
 
 Returns:
 
-| Type  | Description                                                                   |
-| ----- | ----------------------------------------------------------------------------- |
-| `Any` | Serializable state (must be JSON-compatible). Implementation-specific format. |
+| Type        | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
+| `list[Any]` | List of JSON-serializable message objects to append to storage. |
 
 ### mcp
 
@@ -1304,18 +1307,18 @@ Returns:
 ### set_serialized
 
 ```
-set_serialized(state: Any)
+set_serialized(lines: list[Any])
 ```
 
-Restore agent state from serialized data.
+Reconstruct agent history from all JSONL lines.
 
-Reconstructs conversation history and internal state from previously serialized data. Called automatically by the framework after loading from DataStore.
+Rebuilds conversation history from all previously stored lines. Called automatically by the framework when loading from DataStore.
 
 Parameters:
 
-| Name    | Type  | Description                                        | Default    |
-| ------- | ----- | -------------------------------------------------- | ---------- |
-| `state` | `Any` | Previously serialized state from get_serialized(). | *required* |
+| Name    | Type        | Description                                      | Default    |
+| ------- | ----------- | ------------------------------------------------ | ---------- |
+| `lines` | `list[Any]` | All previously stored lines from the JSONL file. | *required* |
 
 ## group_genie.agent.AgentInput
 
@@ -1859,7 +1862,7 @@ Abstract base class for group reasoning logic.
 
 Group reasoners analyze incoming group chat messages and decide whether to ignore them or generate a query for downstream agents. They maintain conversation history across update messages supplied via run() calls.
 
-State persistence is managed automatically by the framework and stored in JSON format. Persisted state is never transferred between different owners (users).
+State persistence is managed automatically by the framework using JSONL format (one JSON object per line). Persisted state is never transferred between different owners (users).
 
 Example
 
@@ -1868,18 +1871,21 @@ class MyGroupReasoner(GroupReasoner):
     def __init__(self, system_prompt: str):
         self._history = []
         self._processed = 0
+        self._new_messages = []
         self._system_prompt = system_prompt
 
     @property
     def processed(self) -> int:
         return self._processed
 
-    def get_serialized(self):
-        return {"history": self._history, "processed": self._processed}
+    def get_new_messages(self):
+        return self._new_messages
 
-    def set_serialized(self, state):
-        self._history = state["history"]
-        self._processed = state["processed"]
+    def set_serialized(self, lines):
+        for line in lines:
+            self._history.extend(line["messages"])
+            self._processed = line["processed"]
+        self._new_messages = []
 
     async def run(self, updates: list[Message]) -> Response:
         # Analyze messages and decide
@@ -1897,21 +1903,21 @@ Number of messages processed so far by this reasoner.
 
 Used for tracking conversation history and providing context to the reasoner.
 
-### get_serialized
+### get_new_messages
 
 ```
-get_serialized() -> Any
+get_new_messages() -> list[Any]
 ```
 
-Serialize reasoner state for persistence.
+Return new data since last save for appending.
 
-Returns conversation history and any other state needed to resume the reasoner after a restart. Called automatically by the framework before saving to DataStore.
+Returns the new data generated during the most recent run() call. Called automatically by the framework after each run to persist incremental state.
 
 Returns:
 
-| Type  | Description                                                                   |
-| ----- | ----------------------------------------------------------------------------- |
-| `Any` | Serializable state (must be JSON-compatible). Implementation-specific format. |
+| Type        | Description                                             |
+| ----------- | ------------------------------------------------------- |
+| `list[Any]` | List of JSON-serializable objects to append to storage. |
 
 ### run
 
@@ -1938,18 +1944,18 @@ Returns:
 ### set_serialized
 
 ```
-set_serialized(serialized: Any)
+set_serialized(lines: list[Any])
 ```
 
-Restore reasoner state from serialized data.
+Reconstruct reasoner state from all JSONL lines.
 
-Reconstructs conversation history and internal state from previously serialized data. Called automatically by the framework after loading from DataStore.
+Rebuilds conversation history and internal state from all previously stored lines. Called automatically by the framework when loading from DataStore.
 
 Parameters:
 
-| Name         | Type  | Description                                        | Default    |
-| ------------ | ----- | -------------------------------------------------- | ---------- |
-| `serialized` | `Any` | Previously serialized state from get_serialized(). | *required* |
+| Name    | Type        | Description                                      | Default    |
+| ------- | ----------- | ------------------------------------------------ | ---------- |
+| `lines` | `list[Any]` | All previously stored lines from the JSONL file. | *required* |
 
 ## group_genie.reasoner.GroupReasonerFactory
 

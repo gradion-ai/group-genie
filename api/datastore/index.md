@@ -6,19 +6,19 @@ DataStore(root_path: Path)
 
 Persistent storage for session messages and agent state.
 
-DataStore provides a simple file-based persistence mechanism for Group Genie sessions. It stores data in JSON files organized in a hierarchical directory structure based on session IDs, owner IDs, and component keys.
+DataStore provides a simple file-based persistence mechanism for Group Genie sessions. It stores data in JSONL files (one JSON object per line) organized in a hierarchical directory structure based on session IDs, owner IDs, and component keys.
 
 Key characteristics:
 
-- Automatic JSON serialization
+- Append-only JSONL format (one JSON object per line)
 - Hierarchical key-based organization via narrow()
-- Asynchronous save operations (non-blocking)
+- Asynchronous append operations (non-blocking)
 - Key sanitization for filesystem safety
 - No depth limits on hierarchy
 
 Note
 
-This is an experimental snapshot store for development and testing. Do not use in production.
+This is an experimental store for development and testing. Do not use in production.
 
 Example
 
@@ -26,17 +26,17 @@ Example
 # Create data store for a session
 store = DataStore(root_path=Path(".data/sessions/session123"))
 
-# Save data
-await store.save("messages", {"messages": [...]})
+# Append data (one line per call)
+store.append("messages", {"content": "hello", "sender": "alice"})
 
-# Load data
-data = await store.load("messages")
+# Load all lines
+lines = await store.load("messages")  # Returns list of dicts
 
 # Create narrowed store for a component
 async with store.narrow("alice") as alice_store:
-    await alice_store.save("agent", agent_state)
+    alice_store.append("agent", message_data)
 
-# Path structure: .data/sessions/session123/alice/agent.json
+# Path structure: .data/sessions/session123/alice/agent.jsonl
 ```
 
 Initialize a data store with a root directory.
@@ -47,13 +47,36 @@ Parameters:
 | ----------- | ------ | ------------------------------------------ | ---------- |
 | `root_path` | `Path` | Root directory for storing all data files. | *required* |
 
+### append
+
+```
+append(key: str, data: list[Data]) -> Future[None]
+```
+
+Append JSON objects as new lines to storage.
+
+Queues the append operation to execute in the background, allowing the caller to continue without blocking. All items are written atomically in a single file operation.
+
+Parameters:
+
+| Name   | Type         | Description                                               | Default    |
+| ------ | ------------ | --------------------------------------------------------- | ---------- |
+| `key`  | `str`        | Storage key for the data.                                 | *required* |
+| `data` | `list[Data]` | List of items to append (each must be JSON-serializable). | *required* |
+
+Returns:
+
+| Type           | Description                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| `Future[None]` | A Future that resolves when the append completes. Can be ignored for fire-and-forget appends. |
+
 ### load
 
 ```
-load(key: str) -> Data
+load(key: str) -> list[Data]
 ```
 
-Load data from storage.
+Load all data lines from storage.
 
 Parameters:
 
@@ -63,15 +86,16 @@ Parameters:
 
 Returns:
 
-| Type   | Description                               |
-| ------ | ----------------------------------------- |
-| `Data` | The loaded data (deserialized from JSON). |
+| Type         | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| `list[Data]` | List of deserialized JSON objects, one per line in the file. |
 
 Raises:
 
-| Type       | Description                           |
-| ---------- | ------------------------------------- |
-| `KeyError` | If the key does not exist in storage. |
+| Type         | Description                           |
+| ------------ | ------------------------------------- |
+| `KeyError`   | If the key does not exist in storage. |
+| `ValueError` | If any line contains malformed JSON.  |
 
 ### narrow
 
@@ -126,26 +150,3 @@ Returns:
 | Type   | Description                     |
 | ------ | ------------------------------- |
 | `Path` | Path to the narrowed directory. |
-
-### save
-
-```
-save(key: str, data: Data) -> Future[None]
-```
-
-Save data to storage asynchronously.
-
-Queues the save operation to execute in the background, allowing the caller to continue without blocking.
-
-Parameters:
-
-| Name   | Type   | Description                               | Default    |
-| ------ | ------ | ----------------------------------------- | ---------- |
-| `key`  | `str`  | Storage key for the data.                 | *required* |
-| `data` | `Data` | Data to save (must be JSON-serializable). | *required* |
-
-Returns:
-
-| Type           | Description                                                                               |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| `Future[None]` | A Future that resolves when the save completes. Can be ignored for fire-and-forget saves. |

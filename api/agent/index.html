@@ -628,9 +628,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#group_genie.agent.Agent.get_serialized" class="md-nav__link">
+  <a href="#group_genie.agent.Agent.get_new_messages" class="md-nav__link">
     <span class="md-ellipsis">
-      get_serialized
+      get_new_messages
     </span>
   </a>
   
@@ -1165,9 +1165,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#group_genie.agent.Agent.get_serialized" class="md-nav__link">
+  <a href="#group_genie.agent.Agent.get_new_messages" class="md-nav__link">
     <span class="md-ellipsis">
-      get_serialized
+      get_new_messages
     </span>
   </a>
   
@@ -1478,12 +1478,13 @@
 reasoners. They can be standalone agents or coordinator agents that orchestrate
 subagents in a hierarchical architecture.</p>
 <p>Implementations must handle conversation state serialization (via
-<a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.get_serialized"><code>get_serialized</code></a> and
+<a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.get_new_messages"><code>get_new_messages</code></a> and
 <a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.set_serialized"><code>set_serialized</code></a>), MCP server
 lifecycle management (via <a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.mcp"><code>mcp</code></a> context
 manager), and query processing with tool approval callbacks.</p>
-<p>State persistence is managed automatically by the framework and stored in JSON
-format. Persisted state is never transferred between different owners (users).</p>
+<p>State persistence is managed automatically by the framework using JSONL format
+(one JSON object per line). Persisted state is never transferred between
+different owners (users).</p>
 
 
 <details class="example" open>
@@ -1491,13 +1492,15 @@ format. Persisted state is never transferred between different owners (users).</
   <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyAgent</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_history</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_new_messages</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_system_prompt</span> <span class="o">=</span> <span class="n">system_prompt</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_serialized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">}</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_new_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_messages</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_serialized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_serialized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span> <span class="o">=</span> <span class="n">lines</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_new_messages</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="nd">@asynccontextmanager</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">mcp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1533,8 +1536,8 @@ format. Persisted state is never transferred between different owners (users).</
 <div class="doc doc-object doc-function">
 
 
-<h3 id="group_genie.agent.Agent.get_serialized" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">get_serialized</span>
+<h3 id="group_genie.agent.Agent.get_new_messages" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_new_messages</span>
 
 
   <span class="doc doc-labels">
@@ -1542,15 +1545,15 @@ format. Persisted state is never transferred between different owners (users).</
   </span>
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_serialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_new_messages</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Serialize agent state for persistence.</p>
-<p>Returns conversation history and any other state needed to resume the agent
-after a restart. Called automatically by the framework before saving to
-<a class="autorefs autorefs-internal" href="../datastore/#group_genie.datastore.DataStore"><code>DataStore</code></a>.</p>
+        <p>Return messages from the last run() call for appending.</p>
+<p>Returns the new messages generated during the most recent
+<a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.run"><code>run()</code></a> call. Called automatically
+by the framework after each run to persist incremental state.</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -1564,11 +1567,11 @@ after a restart. Called automatically by the framework before saving to
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Serializable state (must be JSON-compatible). Implementation-specific format.</p>
+                <p>List of JSON-serializable message objects to append to storage.</p>
               </div>
             </td>
           </tr>
@@ -1741,14 +1744,14 @@ called for any tool execution that requires user approval.</p>
   </span>
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_serialized</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_serialized</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">])</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Restore agent state from serialized data.</p>
-<p>Reconstructs conversation history and internal state from previously serialized
-data. Called automatically by the framework after loading from
+        <p>Reconstruct agent history from all JSONL lines.</p>
+<p>Rebuilds conversation history from all previously stored lines. Called
+automatically by the framework when loading from
 <a class="autorefs autorefs-internal" href="../datastore/#group_genie.datastore.DataStore"><code>DataStore</code></a>.</p>
 
 
@@ -1765,15 +1768,14 @@ data. Called automatically by the framework after loading from
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>state</code>
+                <code>lines</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Previously serialized state from
-<a class="autorefs autorefs-internal" href="#group_genie.agent.Agent.get_serialized"><code>get_serialized()</code></a>.</p>
+                <p>All previously stored lines from the JSONL file.</p>
               </div>
             </td>
             <td>

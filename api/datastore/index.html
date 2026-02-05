@@ -720,6 +720,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#group_genie.datastore.DataStore.append" class="md-nav__link">
+    <span class="md-ellipsis">
+      append
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#group_genie.datastore.DataStore.load" class="md-nav__link">
     <span class="md-ellipsis">
       load
@@ -741,15 +750,6 @@
   <a href="#group_genie.datastore.DataStore.narrow_path" class="md-nav__link">
     <span class="md-ellipsis">
       narrow_path
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#group_genie.datastore.DataStore.save" class="md-nav__link">
-    <span class="md-ellipsis">
-      save
     </span>
   </a>
   
@@ -934,6 +934,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#group_genie.datastore.DataStore.append" class="md-nav__link">
+    <span class="md-ellipsis">
+      append
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#group_genie.datastore.DataStore.load" class="md-nav__link">
     <span class="md-ellipsis">
       load
@@ -955,15 +964,6 @@
   <a href="#group_genie.datastore.DataStore.narrow_path" class="md-nav__link">
     <span class="md-ellipsis">
       narrow_path
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#group_genie.datastore.DataStore.save" class="md-nav__link">
-    <span class="md-ellipsis">
-      save
     </span>
   </a>
   
@@ -1012,14 +1012,15 @@
 
         <p>Persistent storage for session messages and agent state.</p>
 <p>DataStore provides a simple file-based persistence mechanism for Group Genie
-sessions. It stores data in JSON files organized in a hierarchical directory
-structure based on session IDs, owner IDs, and component keys.</p>
+sessions. It stores data in JSONL files (one JSON object per line) organized
+in a hierarchical directory structure based on session IDs, owner IDs, and
+component keys.</p>
 <p>Key characteristics:</p>
 <ul>
-<li>Automatic JSON serialization</li>
+<li>Append-only JSONL format (one JSON object per line)</li>
 <li>Hierarchical key-based organization via
   <a class="autorefs autorefs-internal" href="#group_genie.datastore.DataStore.narrow"><code>narrow()</code></a></li>
-<li>Asynchronous save operations (non-blocking)</li>
+<li>Asynchronous append operations (non-blocking)</li>
 <li>Key sanitization for filesystem safety</li>
 <li>No depth limits on hierarchy</li>
 </ul>
@@ -1027,8 +1028,8 @@ structure based on session IDs, owner IDs, and component keys.</p>
 
 <details class="note" open>
   <summary>Note</summary>
-  <p>This is an experimental snapshot store for development and testing. Do
-not use in production.</p>
+  <p>This is an experimental store for development and testing. Do not use
+in production.</p>
 </details>
 
 <details class="example" open>
@@ -1036,17 +1037,17 @@ not use in production.</p>
   <div class="highlight"><pre><span></span><code><span class="c1"># Create data store for a session</span>
 <span class="n">store</span> <span class="o">=</span> <span class="n">DataStore</span><span class="p">(</span><span class="n">root_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.data/sessions/session123&quot;</span><span class="p">))</span>
 
-<span class="c1"># Save data</span>
-<span class="k">await</span> <span class="n">store</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">]})</span>
+<span class="c1"># Append data (one line per call)</span>
+<span class="n">store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">})</span>
 
-<span class="c1"># Load data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="c1"># Load all lines</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="k">await</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>  <span class="c1"># Returns list of dicts</span>
 
 <span class="c1"># Create narrowed store for a component</span>
 <span class="k">async</span> <span class="k">with</span> <span class="n">store</span><span class="o">.</span><span class="n">narrow</span><span class="p">(</span><span class="s2">&quot;alice&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">alice_store</span><span class="p">:</span>
-    <span class="k">await</span> <span class="n">alice_store</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span> <span class="n">agent_state</span><span class="p">)</span>
+    <span class="n">alice_store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span> <span class="n">message_data</span><span class="p">)</span>
 
-<span class="c1"># Path structure: .data/sessions/session123/alice/agent.json</span>
+<span class="c1"># Path structure: .data/sessions/session123/alice/agent.jsonl</span>
 </code></pre></div>
 </details>
         <p>Initialize a data store with a root directory.</p>
@@ -1106,6 +1107,100 @@ not use in production.</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="group_genie.datastore.DataStore.append" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">append</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">append</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><span title="group_genie.datastore.Data">Data</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="asyncio.Future" href="https://docs.python.org/3/library/asyncio-future.html#asyncio.Future">Future</a></span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Append JSON objects as new lines to storage.</p>
+<p>Queues the append operation to execute in the background, allowing the
+caller to continue without blocking. All items are written atomically
+in a single file operation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Storage key for the data.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<span title="group_genie.datastore.Data">Data</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of items to append (each must be JSON-serializable).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" title="asyncio.Future" href="https://docs.python.org/3/library/asyncio-future.html#asyncio.Future">Future</a>[None]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A Future that resolves when the append completes. Can be ignored for
+fire-and-forget appends.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="group_genie.datastore.DataStore.load" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">load</span>
 
@@ -1115,12 +1210,12 @@ not use in production.</p>
   </span>
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="group_genie.datastore.Data">Data</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a></span><span class="p">[</span><span class="n"><span title="group_genie.datastore.Data">Data</span></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Load data from storage.</p>
+        <p>Load all data lines from storage.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1165,11 +1260,11 @@ not use in production.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="group_genie.datastore.Data">Data</span></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/glossary.html#term-list">list</a>[<span title="group_genie.datastore.Data">Data</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The loaded data (deserialized from JSON).</p>
+                <p>List of deserialized JSON objects, one per line in the file.</p>
               </div>
             </td>
           </tr>
@@ -1193,6 +1288,16 @@ not use in production.</p>
             <td>
               <div class="doc-md-description">
                 <p>If the key does not exist in storage.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If any line contains malformed JSON.</p>
               </div>
             </td>
           </tr>
@@ -1368,99 +1473,6 @@ context manager.</p>
             <td>
               <div class="doc-md-description">
                 <p>Path to the narrowed directory.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="group_genie.datastore.DataStore.save" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">save</span>
-
-
-</h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">save</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n"><span title="group_genie.datastore.Data">Data</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="asyncio.Future" href="https://docs.python.org/3/library/asyncio-future.html#asyncio.Future">Future</a></span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Save data to storage asynchronously.</p>
-<p>Queues the save operation to execute in the background, allowing the caller
-to continue without blocking.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>key</code>
-            </td>
-            <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Storage key for the data.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="group_genie.datastore.Data">Data</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Data to save (must be JSON-serializable).</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-external" title="asyncio.Future" href="https://docs.python.org/3/library/asyncio-future.html#asyncio.Future">Future</a>[None]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A Future that resolves when the save completes. Can be ignored for
-fire-and-forget saves.</p>
               </div>
             </td>
           </tr>
