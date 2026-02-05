@@ -17,8 +17,9 @@ class GroupReasoner(ABC):
     history across update messages supplied via
     [`run()`][group_genie.reasoner.base.GroupReasoner.run] calls.
 
-    State persistence is managed automatically by the framework and stored in JSON
-    format. Persisted state is never transferred between different owners (users).
+    State persistence is managed automatically by the framework using JSONL format
+    (one JSON object per line). Persisted state is never transferred between
+    different owners (users).
 
     Example:
         ```python
@@ -26,18 +27,21 @@ class GroupReasoner(ABC):
             def __init__(self, system_prompt: str):
                 self._history = []
                 self._processed = 0
+                self._new_messages = []
                 self._system_prompt = system_prompt
 
             @property
             def processed(self) -> int:
                 return self._processed
 
-            def get_serialized(self):
-                return {"history": self._history, "processed": self._processed}
+            def get_new_messages(self):
+                return self._new_messages
 
-            def set_serialized(self, state):
-                self._history = state["history"]
-                self._processed = state["processed"]
+            def set_serialized(self, lines):
+                for line in lines:
+                    self._history.extend(line["messages"])
+                    self._processed = line["processed"]
+                self._new_messages = []
 
             async def run(self, updates: list[Message]) -> Response:
                 # Analyze messages and decide
@@ -56,29 +60,28 @@ class GroupReasoner(ABC):
         ...
 
     @abstractmethod
-    def get_serialized(self) -> Any:
-        """Serialize reasoner state for persistence.
+    def get_new_messages(self) -> list[Any]:
+        """Return new data since last save for appending.
 
-        Returns conversation history and any other state needed to resume the reasoner
-        after a restart. Called automatically by the framework before saving to
-        [`DataStore`][group_genie.datastore.DataStore].
+        Returns the new data generated during the most recent
+        [`run()`][group_genie.reasoner.base.GroupReasoner.run] call. Called
+        automatically by the framework after each run to persist incremental state.
 
         Returns:
-            Serializable state (must be JSON-compatible). Implementation-specific format.
+            List of JSON-serializable objects to append to storage.
         """
         ...
 
     @abstractmethod
-    def set_serialized(self, serialized: Any):
-        """Restore reasoner state from serialized data.
+    def set_serialized(self, lines: list[Any]):
+        """Reconstruct reasoner state from all JSONL lines.
 
-        Reconstructs conversation history and internal state from previously serialized
-        data. Called automatically by the framework after loading from
+        Rebuilds conversation history and internal state from all previously stored
+        lines. Called automatically by the framework when loading from
         [`DataStore`][group_genie.datastore.DataStore].
 
         Args:
-            serialized: Previously serialized state from
-                [`get_serialized()`][group_genie.reasoner.base.GroupReasoner.get_serialized].
+            lines: All previously stored lines from the JSONL file.
         """
         ...
 

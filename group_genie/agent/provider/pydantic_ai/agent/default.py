@@ -135,11 +135,12 @@ class DefaultAgent(Stateful, Agent):
         self._interceptor.callback.set(callback)
         result = await self._agent.run(prompt, message_history=self._history)
 
+        new_messages = result.new_messages()
         if input.preferences:
             # remove user preferences from list returned by formatter
             # (places preferences prior to last position in prompt)
-            new_messages = result.new_messages()
             new_messages[0].parts[-1].content.pop(-2)
 
+        self._new_messages = new_messages
         self._history = result.all_messages()
         return result.output

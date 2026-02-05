@@ -72,11 +72,11 @@ class DefaultGroupReasoner(GroupReasoner):
     def processed(self) -> int:
         return self._reasoner.processed
 
-    def get_serialized(self) -> dict[str, Any]:
-        return self._reasoner.get_serialized()
+    def get_new_messages(self) -> list[Any]:
+        return self._reasoner.get_new_messages()
 
-    def set_serialized(self, state: dict[str, Any]):
-        self._reasoner.set_serialized(state)
+    def set_serialized(self, lines: list[Any]):
+        self._reasoner.set_serialized(lines)
 
     async def run(self, updates: list[Message]) -> Response:
         """Analyze message updates and decide whether to delegate.

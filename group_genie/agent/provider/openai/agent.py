@@ -90,24 +90,26 @@ class DefaultAgent(Agent):
         self._callback: ContextVar[ApprovalCallback] = ContextVar[ApprovalCallback]("callback")
         self._agent: AgentImpl[Any] | None = None
         self._history: list[TResponseInputItem] = []
+        self._new_messages: list[TResponseInputItem] = []
 
-    def get_serialized(self) -> Any:
-        """Serialize agent conversation history for persistence.
+    def get_new_messages(self) -> list[Any]:
+        """Return messages from the last run() call for appending.
 
         Returns:
-            Serialized conversation history as JSON-compatible data structure
-                (list of message dictionaries).
+            List of serialized message objects to append to storage.
         """
-        return to_jsonable_python(self._history, bytes_mode="base64")
+        result = [to_jsonable_python(msg, bytes_mode="base64") for msg in self._new_messages]
+        self._new_messages = []
+        return result
 
-    def set_serialized(self, state: Any):
-        """Restore agent conversation history from serialized data.
+    def set_serialized(self, lines: list[Any]):
+        """Reconstruct agent history from all JSONL lines.
 
         Args:
-            state: Previously serialized state from
-                [`get_serialized()`][group_genie.agent.provider.openai.DefaultAgent.get_serialized].
+            lines: All previously stored lines from the JSONL file.
         """
-        self._history = state
+        self._history = lines
+        self._new_messages = []
 
     @asynccontextmanager
     async def mcp(self) -> AsyncIterator["DefaultAgent"]:
@@ -203,11 +205,14 @@ class DefaultAgent(Agent):
         )
 
         user_message_idx = len(self._history)
-        self._history = result.to_input_list()
+        new_history = result.to_input_list()
 
         if input.preferences:
             # remove preferences from history
-            self._history[user_message_idx]["content"].pop(-2)
+            new_history[user_message_idx]["content"].pop(-2)
+
+        self._new_messages = new_history[len(self._history) :]
+        self._history = new_history
 
         return str(result.final_output)
 

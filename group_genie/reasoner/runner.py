@@ -7,6 +7,7 @@ from group_sense import Decision, Response
 from group_genie.datastore import DataStore, narrow
 from group_genie.message import Message
 from group_genie.reasoner.factory import GroupReasonerFactory
+from group_genie.utils import completed_future
 
 logger = logging.getLogger(__name__)
 
@@ -72,23 +73,20 @@ class GroupReasonerRunner:
 
     def _save(self, data_store: DataStore | None) -> Future[None]:
         if data_store is None:
-            future = Future[None]()
-            future.set_result(None)
-            return future
+            return completed_future()
 
-        data = self._group_reasoner.get_serialized()
-        return data_store.save("reasoner", data)
+        new_messages = self._group_reasoner.get_new_messages()
+        return data_store.append("reasoner", new_messages)
 
     async def _load(self, data_store: DataStore | None):
         if data_store is None:
             return
 
         try:
-            data = await data_store.load("reasoner")
+            lines = await data_store.load("reasoner")
         except KeyError:
-            pass  # reasoner wasn't persisted yet
-        else:
-            self._group_reasoner.set_serialized(data)
+            lines = []
+        self._group_reasoner.set_serialized(lines)
 
     async def _work(self):
         try:
@@ -123,9 +121,8 @@ class GroupReasonerRunner:
                         future.set_exception(e)
                     else:
                         future.set_result(response)
-                        self._save(data_store)  # background
+                        await self._save(data_store)
                 case Stop():
-                    await self._save(data_store)
                     logger.debug(f"Group reasoner {self.key} stopped")
                     break
 

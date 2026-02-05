@@ -81,26 +81,29 @@ class Agent(ABC):
     subagents in a hierarchical architecture.
 
     Implementations must handle conversation state serialization (via
-    [`get_serialized`][group_genie.agent.base.Agent.get_serialized] and
+    [`get_new_messages`][group_genie.agent.base.Agent.get_new_messages] and
     [`set_serialized`][group_genie.agent.base.Agent.set_serialized]), MCP server
     lifecycle management (via [`mcp`][group_genie.agent.base.Agent.mcp] context
     manager), and query processing with tool approval callbacks.
 
-    State persistence is managed automatically by the framework and stored in JSON
-    format. Persisted state is never transferred between different owners (users).
+    State persistence is managed automatically by the framework using JSONL format
+    (one JSON object per line). Persisted state is never transferred between
+    different owners (users).
 
     Example:
         ```python
         class MyAgent(Agent):
             def __init__(self, system_prompt: str):
                 self._history = []
+                self._new_messages = []
                 self._system_prompt = system_prompt
 
-            def get_serialized(self):
-                return {"history": self._history}
+            def get_new_messages(self):
+                return self._new_messages
 
-            def set_serialized(self, state):
-                self._history = state["history"]
+            def set_serialized(self, lines):
+                self._history = lines
+                self._new_messages = []
 
             @asynccontextmanager
             async def mcp(self):
@@ -114,29 +117,28 @@ class Agent(ABC):
     """
 
     @abstractmethod
-    def get_serialized(self) -> Any:
-        """Serialize agent state for persistence.
+    def get_new_messages(self) -> list[Any]:
+        """Return messages from the last run() call for appending.
 
-        Returns conversation history and any other state needed to resume the agent
-        after a restart. Called automatically by the framework before saving to
-        [`DataStore`][group_genie.datastore.DataStore].
+        Returns the new messages generated during the most recent
+        [`run()`][group_genie.agent.base.Agent.run] call. Called automatically
+        by the framework after each run to persist incremental state.
 
         Returns:
-            Serializable state (must be JSON-compatible). Implementation-specific format.
+            List of JSON-serializable message objects to append to storage.
         """
         ...
 
     @abstractmethod
-    def set_serialized(self, state: Any):
-        """Restore agent state from serialized data.
+    def set_serialized(self, lines: list[Any]):
+        """Reconstruct agent history from all JSONL lines.
 
-        Reconstructs conversation history and internal state from previously serialized
-        data. Called automatically by the framework after loading from
+        Rebuilds conversation history from all previously stored lines. Called
+        automatically by the framework when loading from
         [`DataStore`][group_genie.datastore.DataStore].
 
         Args:
-            state: Previously serialized state from
-                [`get_serialized()`][group_genie.agent.base.Agent.get_serialized].
+            lines: All previously stored lines from the JSONL file.
         """
         ...
 

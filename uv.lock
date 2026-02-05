@@ -1144,7 +1144,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "aiofiles", specifier = ">=24.1.0" },
-    { name = "group-sense", specifier = ">=0.0.4,<0.1" },
+    { name = "group-sense", specifier = ">=0.0.5,<0.1" },
     { name = "openai-agents", marker = "extra == 'openai'", specifier = ">=0.5.0,<0.6" },
 ]
 provides-extras = ["openai"]
@@ -1170,15 +1170,15 @@ docs = [
 
 [[package]]
 name = "group-sense"
-version = "0.0.4"
+version = "0.0.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "google-genai" },
     { name = "pydantic-ai" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7c/de/a12c6e8ea4e88af8a3acee78925e51bd59c20206a89f3621d4f3938f1a46/group_sense-0.0.4.tar.gz", hash = "sha256:382bf544da9a09728f1c894e9499261b36485022ab7a9aa602eab081a084d787", size = 12160, upload-time = "2026-01-06T15:09:45.877Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/00/cd7915a4e1acdde2bd841fd5f2fc12a520bed9ff1f29af26954daa352d30/group_sense-0.0.5.tar.gz", hash = "sha256:cc65749bd725a3efb251244706d6b667f3b09ec65bb13b409b8c002c7fbca9b2", size = 12228, upload-time = "2026-02-05T12:12:01.591Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/dc/ad51f8c24e3eb1431208329e0cce921b2d845a2a14985533f07b3c188c83/group_sense-0.0.4-py3-none-any.whl", hash = "sha256:dc17f5f1762864e3455cb47e3626b857c910e361ad68449ae66dc30e293c0957", size = 14852, upload-time = "2026-01-06T15:09:44.554Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/36/2d8e012bc40e1245d9adbe6fb79451cd283c3f16ef7eb70ec7e0bc170e35/group_sense-0.0.5-py3-none-any.whl", hash = "sha256:20a98891f2d14452eb1fdc118c86aaa260405e0e102ee786839321b9ed0fa99e", size = 14936, upload-time = "2026-02-05T12:12:00.055Z" },
 ]
 
 [[package]]

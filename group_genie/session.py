@@ -176,15 +176,6 @@ class GroupSession:
         self._worker_queue.put_nowait(invoke)
         return execution
 
-    def _save(self, data_store: DataStore | None) -> Future[None]:
-        if data_store is None:
-            future = Future[None]()
-            future.set_result(None)
-            return future
-
-        data = {"messages": [asdict(message) for message in self._messages]}
-        return data_store.save("session", data)
-
     @staticmethod
     async def load_messages(data_store: DataStore) -> list[Message] | None:
         """Load persisted messages from a data store.
@@ -201,11 +192,10 @@ class GroupSession:
             List of messages if the session exists in the data store, None otherwise.
         """
         try:
-            data = await data_store.load("session")
+            lines = await data_store.load("session")
         except KeyError:
             return None
-        else:
-            return [Message.deserialize(message) for message in data["messages"]]
+        return [Message.deserialize(msg) for msg in lines]
 
     async def _load(self, data_store: DataStore | None):
         if data_store is None:
@@ -218,7 +208,7 @@ class GroupSession:
         self._messages.append(message)
 
         if data_store is not None:
-            self._save(data_store)  # background (preserves order)
+            data_store.append("session", [asdict(message)])
 
     async def _get_group_reasoner_runner(
         self,
@@ -312,7 +302,6 @@ class GroupSession:
                     request_ids = {message.request_id for message in self._messages if message.request_id}
                     future.set_result(request_ids)
                 case Stop():
-                    await self._save(data_store)
                     self._stop_group_reasoners()
                     self._stop_system_agents()
                     await self._join_group_reasoners()
