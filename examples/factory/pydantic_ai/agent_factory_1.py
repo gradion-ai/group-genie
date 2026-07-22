@@ -22,7 +22,7 @@ def create_system_agent(secrets: dict[str, str]) -> Agent:
     )
 
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 

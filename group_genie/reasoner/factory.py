@@ -28,7 +28,7 @@ Example:
         template = "You are assisting {owner} in a group chat..."
         system_prompt = template.format(owner=owner)
         model = GoogleModel(
-            "gemini-3-flash-preview",
+            "gemini-3.6-flash",
             provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
         )
         return DefaultGroupReasoner(
