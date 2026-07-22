@@ -137,7 +137,7 @@ def create_group_reasoner(
     owner: str,
 ) -> GroupReasoner:
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
     return DefaultGroupReasoner(
@@ -195,7 +195,7 @@ def create_system_agent(secrets: dict[str, str]) -> Agent:
     )
 
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 
@@ -1616,7 +1616,7 @@ Example
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     return DefaultAgent(
         system_prompt="You are a search specialist",
-        model="google-gla:google-gla:gemini-3-flash-preview",
+        model="google-gla:gemini-3.6-flash",
         builtin_tools=[WebSearchTool()],
     )
 
@@ -1798,7 +1798,7 @@ Example
 ```
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
     return DefaultAgent(
@@ -1843,7 +1843,7 @@ def create_coordinator(
     system_prompt = f"You can delegate to: {[a.name for a in agent_infos]}"
     return DefaultAgent(
         system_prompt=system_prompt,
-        model="google-gla:gemini-3-flash-preview",
+        model="google-gla:gemini-3.6-flash",
         tools=[extra_tools["run_subagent"]],
     )
 ```
@@ -2052,7 +2052,7 @@ def create_reasoner(secrets: dict[str, str], owner: str) -> GroupReasoner:
     template = "You are assisting {owner} in a group chat..."
     system_prompt = template.format(owner=owner)
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
     return DefaultGroupReasoner(
@@ -2091,7 +2091,7 @@ from pydantic_ai.models.google import GoogleModelSettings
 
 agent = DefaultAgent(
     system_prompt="You are a helpful assistant",
-    model="google-gla:gemini-3-flash-preview",
+    model="google-gla:gemini-3.6-flash",
     model_settings=GoogleModelSettings(
         google_thinking_config={
             "thinking_level": "high",
@@ -2168,7 +2168,7 @@ DefaultGroupReasoner wraps the group-sense library's DefaultGroupReasoner, adapt
 
 The reasoner analyzes group chat messages according to the system prompt's engagement criteria and decides whether to delegate queries to agents.
 
-For model and configuration details, consult the group-sense and pydantic-ai documentation. Tested with google-gla:gemini-3-flash-preview but compatible with any pydantic-ai supported model.
+For model and configuration details, consult the group-sense and pydantic-ai documentation. Tested with google-gla:gemini-3.6-flash but compatible with any pydantic-ai supported model.
 
 Example
 
@@ -2179,7 +2179,7 @@ reasoner = DefaultGroupReasoner(
         Delegate when {owner} asks questions.
         Generate self-contained queries.
     '''.format(owner="alice"),
-    model="google-gla:gemini-3-flash-preview",
+    model="google-gla:gemini-3.6-flash",
 )
 
 # Process messages
