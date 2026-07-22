@@ -39,7 +39,7 @@ class DefaultAgent(Stateful, Agent):
 
         agent = DefaultAgent(
             system_prompt="You are a helpful assistant",
-            model="google-gla:gemini-3-flash-preview",
+            model="google-gla:gemini-3.6-flash",
             model_settings=GoogleModelSettings(
                 google_thinking_config={
                     "thinking_level": "high",

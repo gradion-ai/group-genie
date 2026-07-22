@@ -10,7 +10,7 @@ from group_genie.secrets import SecretsProvider
 
 def create_search_agent(secrets: dict[str, str]) -> Agent:
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 
@@ -34,7 +34,7 @@ def create_math_agent(secrets: dict[str, str]) -> Agent:
     )
 
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 
@@ -63,7 +63,7 @@ def create_system_agent(
         tools.append(tool)
 
     model = GoogleModel(
-        "gemini-3-flash-preview",
+        "gemini-3.6-flash",
         provider=GoogleProvider(api_key=secrets.get("GOOGLE_API_KEY", "")),
     )
 

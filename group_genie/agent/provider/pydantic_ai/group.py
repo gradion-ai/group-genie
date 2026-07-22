@@ -20,7 +20,7 @@ class DefaultGroupReasoner(GroupReasoner):
     engagement criteria and decides whether to delegate queries to agents.
 
     For model and configuration details, consult the group-sense and pydantic-ai
-    documentation. Tested with google-gla:gemini-3-flash-preview but compatible
+    documentation. Tested with google-gla:gemini-3.6-flash but compatible
     with any pydantic-ai supported model.
 
     Example:
@@ -31,7 +31,7 @@ class DefaultGroupReasoner(GroupReasoner):
                 Delegate when {owner} asks questions.
                 Generate self-contained queries.
             '''.format(owner="alice"),
-            model="google-gla:gemini-3-flash-preview",
+            model="google-gla:gemini-3.6-flash",
         )
 
         # Process messages
